@@ -1,0 +1,160 @@
+/* .cart_container {
+  width: 70%;
+  margin: auto;
+  margin-top: 20px;
+}
+.cart_text_box {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+.cart_box {
+  display: flex;
+  margin-top: 10px;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.details_box {
+  flex: 2;
+  background-color: #fff;
+}
+.checkout_box {
+  flex: 1;
+  background-color: #fff;
+  color: #222222;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 10px 20px;
+  line-height: 2.4rem;
+}
+.checkout_box > div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+.discount_box {
+  display: flex;
+  margin-bottom: 10px;
+  width: 100%;
+  gap: 10px;
+}
+.total_value {
+  border-top: 2px solid;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+@media all and (min-width: 640px) and (max-width: 1024px) {
+  .cart_container {
+    width: 90%;
+  }
+  .cart_text_box {
+    width: 90%;
+  }
+}
+
+/* for mobile screens */
+/* @media all and (min-width: 324px) and (max-width: 640px) {
+  .cart_container {
+    width: 90%;
+  }
+  .cart_text_box {
+    width: 90%;
+  }
+  .cart_box {
+    flex-direction: column-reverse;
+  }
+  .checkout_btn {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    background: var(--color-bg);
+  }
+}  */
+
+.cart_page_container {
+  width: 70%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.cart_items_container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.cart_item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.cart_item img {
+  max-width: 100px;
+  height: auto;
+}
+
+.checkout_box {
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.discount_box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.total_value {
+  border-top: 2px solid #ccc;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+.checkout_btn {
+  width: 100%;
+  padding: 10px;
+}
+
+@media all and (min-width: 640px) and (max-width: 1024px) {
+  .cart_page_container {
+    width: 90%;
+  }
+  .cart_items_container {
+    width: 90%;
+  }
+}
+
+@media all and (min-width: 324px) and (max-width: 640px) {
+  .cart_page_container {
+    width: 90%;
+  }
+  .cart_items_container {
+    width: 90%;
+  }
+  .cart_item {
+    flex-direction: column;
+  }
+  .checkout_btn {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    background: var(--color-bg);
+  }
+}
