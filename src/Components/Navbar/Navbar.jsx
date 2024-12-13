@@ -691,6 +691,7 @@ export const Navbar = () => {
               focusBorderColor="gray.100"
               fontSize={"16px"}
             />
+            
           </InputGroup>
         </div>
       </div>
