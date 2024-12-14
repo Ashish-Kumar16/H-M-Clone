@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 // import { reducer as singleDataReducer } from "./dataReducer/SingleReducer";
 import { reducer as authReducer } from "./authReducer/reducer";
 // import { reducer as cartReducer } from "./cartReducer/reducer";
-import { configureStore } from "@reduxjs/toolkit";
+// import { configureStore } from "@reduxjs/toolkit";
 // import cartReducer from "./cartReducer/cartSlice";
 const combineReducer = combineReducers({
   // dataReducer,

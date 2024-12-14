@@ -13,8 +13,8 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import {
-  ChevronDownIcon,
-  ChevronUpIcon,
+  // ChevronDownIcon,
+  // ChevronUpIcon,
   ArrowBackIcon,
   ArrowForwardIcon,
 } from "@chakra-ui/icons";

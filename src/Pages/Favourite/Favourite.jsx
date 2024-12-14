@@ -1,13 +1,13 @@
 import {
   Box,
-  Button,
-  Flex,
+  // Button,
+  // Flex,
   IconButton,
   Text,
   Image,
-  Stack,
+  // Stack,
 } from "@chakra-ui/react";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import {  AiFillHeart } from "react-icons/ai";
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Favorite.module.css";

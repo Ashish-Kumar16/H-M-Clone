@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import "./Scroller.css";
-import { Box, Image, Stack, Text } from "@chakra-ui/react";
+import {  Image, Stack, Text } from "@chakra-ui/react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
 const PreviousBtn = (props) => {

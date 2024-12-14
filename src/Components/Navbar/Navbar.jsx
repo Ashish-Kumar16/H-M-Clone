@@ -7,17 +7,17 @@ import {
   Image,
   Input,
   InputGroup,
-  InputLeftAddon,
+  // InputLeftAddon,
   InputLeftElement,
   InputRightElement,
   Menu,
   MenuButton,
-  MenuItem,
+  // MenuItem,
   MenuList,
   Text,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import styles from "./Navbar.module.css";
 import logo from "../../assets/logohm.png";
 
@@ -44,7 +44,7 @@ import {
   signOutReq,
   signOutSuccess,
 } from "../../redux/authReducer/action";
-const list = ["hello", "hello", "hello"];
+// const list = ["hello", "hello", "hello"];
 const ladies = [
   {
     key: "Offers",
@@ -691,7 +691,7 @@ export const Navbar = () => {
               focusBorderColor="gray.100"
               fontSize={"16px"}
             />
-            
+
           </InputGroup>
         </div>
       </div>

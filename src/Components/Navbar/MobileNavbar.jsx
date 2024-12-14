@@ -12,9 +12,9 @@ import styles from "./Navbar.module.css";
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
+  // DrawerFooter,
+  // DrawerHeader,
+  // DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";

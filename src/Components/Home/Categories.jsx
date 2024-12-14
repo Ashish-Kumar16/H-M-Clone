@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import Slider from "react-slick";
 import React from "react";
-import { Box, Divider, Image, Text } from "@chakra-ui/react";
+import { Box,  Image, Text } from "@chakra-ui/react";
 import tshirt from "../../assets/categories/10221.png";
 import trouser from "../../assets/categories/10222.png";
 import shoes from "../../assets/categories/10226.png";

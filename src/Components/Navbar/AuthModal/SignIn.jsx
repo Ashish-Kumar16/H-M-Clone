@@ -7,14 +7,13 @@ import {
   Box,
   Button,
   FormControl,
-  FormHelperText,
   FormLabel,
   Input,
   InputGroup,
   InputRightElement,
   Select,
   Text,
-  useToast,
+  // useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -32,8 +31,8 @@ export const SignInComp = () => {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const [pass, setPass] = useState("");
-  const toast = useToast();
-  const dispatch = useDispatch();
+  // const toast = useToast();
+  // const dispatch = useDispatch();
   // function for sign up new user
   // const handleSignUp = () => {
   //   if (email == "" || pass == "") {
