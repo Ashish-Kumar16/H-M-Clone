@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "/H-M-Clone/static/css/main.086e179f.css",
+    "main.js": "/H-M-Clone/static/js/main.c2bcd91c.js",
+    "static/media/Kids1.jpeg": "/H-M-Clone/static/media/Kids1.9edc1062c9492e6a8e15.jpeg",
+    "static/media/Ladies1.jpeg": "/H-M-Clone/static/media/Ladies1.f8c81b17607c0599b2b7.jpeg",
+    "static/media/homecare.jpg": "/H-M-Clone/static/media/homecare.8749c27ad428ee3bffdd.jpg",
+    "static/media/logohm.png": "/H-M-Clone/static/media/logohm.bd1dc35ee946e620b3b2.png",
+    "static/media/women_min.jpg": "/H-M-Clone/static/media/women_min.c80bd9fd8394ee317ef1.jpg",
+    "static/media/sport.jpg": "/H-M-Clone/static/media/sport.347d3a52235f9ee791bb.jpg",
+    "static/media/10227.png": "/H-M-Clone/static/media/10227.8977e94e830a36d40f97.png",
+    "static/media/swomen.png": "/H-M-Clone/static/media/swomen.96a134e3d45257ff257e.png",
+    "static/media/10231.png": "/H-M-Clone/static/media/10231.4652c88110e9b6dcffc4.png",
+    "static/media/women.jpg": "/H-M-Clone/static/media/women.02486c8ce616083a3da2.jpg",
+    "static/media/training.png": "/H-M-Clone/static/media/training.d37f08226ce414ced146.png",
+    "static/media/f_home.png": "/H-M-Clone/static/media/f_home.84207f009c9670780201.png",
+    "static/media/Home1.jpeg": "/H-M-Clone/static/media/Home1.472daa46fef1bde3fafb.jpeg",
+    "static/media/10229.png": "/H-M-Clone/static/media/10229.da7d9628e1d82563c741.png",
+    "static/media/10252.png": "/H-M-Clone/static/media/10252.ef017d450ef189820a87.png",
+    "static/media/10221.png": "/H-M-Clone/static/media/10221.c7ee730df8018b562671.png",
+    "static/media/10222.png": "/H-M-Clone/static/media/10222.c114607cfa6f6d824891.png",
+    "static/media/10226.png": "/H-M-Clone/static/media/10226.da629856f16330dc0161.png",
+    "static/media/10230.png": "/H-M-Clone/static/media/10230.f36c9e8b4ae8a01b4826.png",
+    "static/media/hmgoepprod.jpg": "/H-M-Clone/static/media/hmgoepprod.17178d3ab23e28594aff.jpg",
+    "static/media/mag_women.jpg": "/H-M-Clone/static/media/mag_women.2c1d95a7a10c05f1cb84.jpg",
+    "static/media/slick.svg": "/H-M-Clone/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/H-M-Clone/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/H-M-Clone/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/H-M-Clone/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/H-M-Clone/index.html",
+    "main.086e179f.css.map": "/H-M-Clone/static/css/main.086e179f.css.map",
+    "main.c2bcd91c.js.map": "/H-M-Clone/static/js/main.c2bcd91c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.086e179f.css",
+    "static/js/main.c2bcd91c.js"
+  ]
+}
