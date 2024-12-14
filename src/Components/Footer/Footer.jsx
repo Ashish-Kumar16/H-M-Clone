@@ -40,7 +40,7 @@ export const FooterC = () => {
       /> */}
 
       {/* Footer Links & Content Section */}
-      <Container as={Stack} maxW={"6xl"} py={10}>
+      <Container as={Stack} maxW={{ base: "90%", md: "6xl" }} py={10}>
         <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
           {/* Shop Section */}
           <Stack align={"flex-start"}>
