@@ -13,64 +13,61 @@ import {
   InputRightElement,
   Select,
   Text,
-  // useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-// import {
-//   signup,
-//   signUpErr,
-//   signUpSuccess,
-// } from "../../../redux/authReducer/action";
 import styles from "./Signup.module.css";
+import { useNavigate } from "react-router-dom"; // Updated import
+
 export const SignInComp = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [gender, setGender] = useState("");
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const [pass, setPass] = useState("");
-  // const toast = useToast();
-  // const dispatch = useDispatch();
-  // function for sign up new user
-  // const handleSignUp = () => {
-  //   if (email == "" || pass == "") {
-  //     toast({
-  //       title: "Please fill all the credentials",
-  //       status: "error",
-  //       duration: 2000,
-  //       isClosable: true,
-  //     });
-  //   } else {
-  //     // dispatch(signup({ firstName, lastName, email, password: pass, gender }))
-  //       .then((re) => {
-  //         // dispatch(signUpSuccess());
-  //         toast({
-  //           title: "user Signup Successfully",
-  //           status: "success",
-  //           duration: 3000,
-  //           isClosable: true,
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         // dispatch(signUpErr());
-  //         toast({
-  //           title: "Oops, Check your credentials again",
-  //           status: "error",
-  //           duration: 3000,
-  //           isClosable: true,
-  //         });
-  //       });
-  //   }
-  // };
+
+  const navigate = useNavigate(); // Use navigate instead of history
+
+  const handleSignUp = () => {
+    // Save the user data to localStorage after successful signup
+    const userData = { email, pass, firstName, lastName, gender };
+
+    // Check if user already exists in localStorage
+    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+    if (existingUsers.some((user) => user.email === email)) {
+      alert("User with this email already exists!");
+      return;
+    }
+
+    existingUsers.push(userData);
+    localStorage.setItem("users", JSON.stringify(existingUsers));
+    alert("Sign up successful! You can now log in.");
+    navigate("/"); // Use navigate for redirection
+  };
+
+  const handleSignIn = () => {
+    // Check if user data exists in localStorage
+    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+    const user = existingUsers.find(
+      (user) => user.email === email && user.pass === pass,
+    );
+
+    if (user) {
+      alert("Login successful!");
+      navigate("/Home"); // Use navigate for redirection
+    } else {
+      alert("Invalid credentials. Please check your email and password.");
+    }
+  };
+
   return (
     <div className={styles.signup_box}>
       <Text fontSize={"2xl"} fontWeight="500">
         BECOME A MEMBER
       </Text>
       <Text>
-        Become a member — don’t miss out on deals, offers, discounts and bonus
+        Become a member — don’t miss out on deals, offers, discounts, and bonus
         vouchers.
       </Text>
       <div className={styles.signup_form_box}>
@@ -168,9 +165,19 @@ export const SignInComp = () => {
           background="var(--text-color)"
           width={"100%"}
           borderRadius="0"
-          // onClick={handleSignUp}
+          onClick={handleSignUp}
         >
           Become a Member
+        </Button>
+        <Button
+          colorScheme={"blackAlpha"}
+          background="var(--text-color)"
+          width={"100%"}
+          borderRadius="0"
+          onClick={handleSignIn}
+          marginTop="15px"
+        >
+          Sign In
         </Button>
       </div>
     </div>
