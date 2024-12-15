@@ -94,13 +94,29 @@ export const Product = () => {
     }
   };
 
-  const toggleFavorite = (product) => {
-    if (favorites.find((item) => item.id === product.id)) {
-      setFavorites(favorites.filter((item) => item.id !== product.id)); // Remove from favorites
-    } else {
-      setFavorites([...favorites, product]); // Add to favorites
-    }
-  };
+ const toggleFavorite = (product) => {
+   // Get the current favorites from localStorage, or an empty array if none
+   const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+   // Check if the product is already in the favorites
+   const productIndex = storedFavorites.findIndex(
+     (item) => item.id === product.id,
+   );
+
+   if (productIndex !== -1) {
+     // Product is in favorites, remove it
+     storedFavorites.splice(productIndex, 1);
+   } else {
+     // Product is not in favorites, add it
+     storedFavorites.push(product);
+   }
+
+   // Save the updated favorites list back to localStorage
+   localStorage.setItem("favorites", JSON.stringify(storedFavorites));
+
+   // Update the local state to reflect the changes
+   setFavorites(storedFavorites);
+ };
 
   if (isError) {
     return (

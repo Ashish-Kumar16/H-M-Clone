@@ -1,18 +1,31 @@
-import {
-  Box,
-  // Button,
-  // Flex,
-  IconButton,
-  Text,
-  Image,
-  // Stack,
-} from "@chakra-ui/react";
-import {  AiFillHeart } from "react-icons/ai";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Box, IconButton, Text, Image } from "@chakra-ui/react";
+import { AiFillHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import styles from "./Favorite.module.css";
 
-export const Favorites = ({ favorites, toggleFavorite }) => {
+export const Favorites = ({ toggleFavorite }) => {
+  const [favorites, setFavorites] = useState([]);
+
+  // Load favorite products from localStorage on component mount
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(storedFavorites);
+  }, []);
+
+  // Toggle favorite (add/remove from localStorage)
+  const handleFavoriteClick = (product) => {
+    const updatedFavorites = favorites.filter((item) => item.id !== product.id);
+
+    if (updatedFavorites.length === favorites.length) {
+      // If the product wasn't already in the favorites, add it
+      updatedFavorites.push(product);
+    }
+
+    setFavorites(updatedFavorites); // Update state
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites)); // Update localStorage
+  };
+
   if (favorites.length === 0) {
     return (
       <Box className={styles.empty_favorites}>
@@ -49,8 +62,8 @@ export const Favorites = ({ favorites, toggleFavorite }) => {
                 border="1px solid black"
                 borderRadius="full"
                 onClick={(e) => {
-                  e.preventDefault();
-                  toggleFavorite(product);
+                  e.preventDefault(); // Prevent the link from being clicked
+                  handleFavoriteClick(product); // Toggle favorite
                 }}
               />
               <Image
