@@ -9,7 +9,7 @@ export const Cartcard = ({ el, handleDelete }) => {
       {/* Image */}
       <Image
         src={el?.image} // Using el?.img for the image
-        alt={el?.name} // Using el?.name for the alt text
+        alt={el?.title} // Using el?.name for the alt text
         boxSize="150px"
         objectFit="contain"
       />
@@ -17,7 +17,7 @@ export const Cartcard = ({ el, handleDelete }) => {
       {/* Title and Price */}
       <div>
         <Text fontSize="xl" fontWeight="600">
-          {el?.name || "Untitled Product"} {/* Using el?.name for the title */}
+          {el?.title || "Untitled Product"} {/* Using el?.name for the title */}
         </Text>
         <Text fontSize="lg" fontWeight="500" color="gray.600">
           Rs. {el?.price || "0.00"} {/* Using el?.price for the price */}

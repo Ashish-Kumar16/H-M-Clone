@@ -261,7 +261,6 @@ export const Product = () => {
                     right="8px"
                     size="sm"
                     backgroundColor="white"
-                    border="1px solid black"
                     borderRadius="full"
                     onClick={(e) => {
                       e.preventDefault();
