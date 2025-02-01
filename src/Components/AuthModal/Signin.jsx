@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn } from "../../../redux/auth/authSlice";
+import { signIn } from "../../redux/auth/authSlice";
 // import styles from "../Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import {

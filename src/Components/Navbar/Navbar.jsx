@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../../redux/auth/authSlice"; // Importing Redux slice
 import logo from "../../assets/logohm.png";
 import { MobileNavbar } from "./MobileNavbar";
-import { SignIn } from "./AuthModal/Signin";
+import { SignIn } from "../AuthModal/Signin";
 import { NavbarSec } from "./NavbarItems";
 import { ladies, men, kids, sale, home } from "./subCategory"; // Subcategories import
 import styles from "./Navbar.module.css"; // Your CSS file
