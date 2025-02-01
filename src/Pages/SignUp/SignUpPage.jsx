@@ -1,5 +1,5 @@
 import React from "react";
-import { SignInComp } from "../../Components/Navbar/AuthModal/Signup";
+import { SignInComp } from "../../Components/AuthModal/Signup";
 
 export const SignUpPage = () => {
   return <SignInComp />;

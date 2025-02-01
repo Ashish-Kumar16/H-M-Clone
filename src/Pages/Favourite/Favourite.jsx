@@ -36,7 +36,9 @@ export const Favorites = () => {
     const fetchFavorites = async () => {
       try {
         // Assuming your API endpoint for fetching favorites is `/wishlists`
-        const response = await axios.get("http://localhost:5000/wishlists");
+        const response = await axios.get(
+          "https://hm-backend-3trj.onrender.com/wishlists",
+        );
         setFavorites(response.data.myWishlist); // Assuming the API response structure
         setLoading(false);
       } catch (error) {
