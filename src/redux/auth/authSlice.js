@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "https://hm-backend-3trj.onrender.com/";
+const API_URL = "https://hm-backend-wdt8.onrender.com";
 
 // const { user } = useSelector((state) => state.auth);
 // const { isAuthenticated, user } = useSelector((state) => state.auth);

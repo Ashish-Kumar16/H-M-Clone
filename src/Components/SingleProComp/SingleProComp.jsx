@@ -31,7 +31,7 @@ export const SingleProComp = () => {
   const toast = useToast();
   const [randomReviewCount, setRandomReviewCount] = useState(0);
   const [randomRating, setRandomRating] = useState(0);
-  const API = `https://hm-backend-3trj.onrender.com`;
+  const API = `https://hm-backend-wdt8.onrender.com`;
   const { user, accessToken } = useSelector((state) => state.auth); // Get user from Redux state
   const isAuthenticated = !!user; // Check if the user is authenticated
 

@@ -10,7 +10,7 @@ const getData = async (category) => {
   try {
     const response = await axios.get(
       // `https://fakestoreapi.com/products/category/${category}`,
-      `http://localhost:5000/products/${category}`,
+      `https://hm-backend-wdt8.onrender.com/products/${category}`,
     );
     return response.data;
   } catch (error) {

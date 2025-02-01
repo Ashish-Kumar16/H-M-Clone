@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API = "https://hm-backend-3trj.onrender.com/"; // Replace with your backend API URL
+const API = "https://hm-backend-wdt8.onrender.com"; // Replace with your backend API URL
 
 // Initial state
 const initialState = {

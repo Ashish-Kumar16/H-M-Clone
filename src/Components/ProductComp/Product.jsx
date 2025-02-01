@@ -31,7 +31,7 @@ export const Product = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const itemsPerPage = 10;
   const toast = useToast();
-
+  const API = "https://hm-backend-wdt8.onrender.com";
   const categoryMap = {
     men: "Men",
     ladies: "Women",
@@ -43,17 +43,17 @@ export const Product = () => {
     try {
       setLoading(true);
       setIsError(false);
-      let url = `https://hm-backend-3trj.onrender.com/products`; // Default endpoint for all products
+      let url = `${API}/products`; // Default endpoint for all products
       const apiCategory = categoryMap[selectedCategory] || null;
 
       // For "home" category, fetch all products (no specific category)
       if (selectedCategory === "home") {
-        url = `https://hm-backend-3trj.onrender.com/products?limit=10&page=${currentPage + 1}`;
+        url = `${API}/products?limit=10&page=${currentPage + 1}`;
       }
 
       // For other categories, use the specific category endpoint
       if (apiCategory && apiCategory !== "All Products") {
-        url = `https://hm-backend-3trj.onrender.com/products/category/${apiCategory}?limit=10&page=${
+        url = `${API}/products/category/${apiCategory}?limit=10&page=${
           currentPage + 1
         }`;
       }
@@ -110,7 +110,7 @@ export const Product = () => {
       if (favorites.includes(productId)) {
         // Remove from wishlist
         await axios.delete(
-          `https://hm-backend-3trj.onrender.com/wishlists/delete/${productId}`,
+          `${API}/wishlists/delete/${productId}`,
         );
         setFavorites(favorites.filter((id) => id !== productId));
         toast({
@@ -121,7 +121,7 @@ export const Product = () => {
         });
       } else {
         // Add to wishlist
-        await axios.post(`https://hm-backend-3trj.onrender.com/wishlists/add/${productId}`);
+        await axios.post(`${API}/wishlists/add/${productId}`);
         setFavorites([...favorites, productId]);
         toast({
           title: "Added to Wishlist",
