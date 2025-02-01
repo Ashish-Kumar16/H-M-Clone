@@ -24,6 +24,7 @@ import { NavbarSec } from "./NavbarItems";
 import { ladies, men, kids, sale, home } from "./subCategory"; // Subcategories import
 import styles from "./Navbar.module.css"; // Your CSS file
 
+
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toast = useToast();
