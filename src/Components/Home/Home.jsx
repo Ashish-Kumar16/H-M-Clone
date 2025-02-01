@@ -9,7 +9,8 @@ import axios from "axios";
 const getData = async (category) => {
   try {
     const response = await axios.get(
-      `https://fakestoreapi.com/products/category/${category}`,
+      // `https://fakestoreapi.com/products/category/${category}`,
+      `http://localhost:5000/products/${category}`,
     );
     return response.data;
   } catch (error) {
@@ -49,7 +50,7 @@ export const HomeComp = () => {
         <Box className={styles.overlay_text}>
           <Text className={styles.title}>Winter neutrals</Text>
           <Flex justifyContent="center" mt="10px">
-            <Link to="/category/ladies">
+            <Link to="/category/Women">
               <Button className={styles.button} _hover={{ bg: "gray.700" }}>
                 Shop now
               </Button>

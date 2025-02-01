@@ -18,7 +18,7 @@ export const AllRoutes = () => {
 
       {/* Single Product Page */}
       <Route
-        path="/singleproduct/:articleCode"
+        path="/productdetail/:articleCode"
         element={<SingleProductPage />}
       />
 

@@ -38,7 +38,7 @@
 }
 .navbar_box_2 {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   width: 95%;
   margin: auto;
   align-items: center;

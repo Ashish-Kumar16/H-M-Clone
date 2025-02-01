@@ -11,14 +11,10 @@ import {
   Image,
   Stack,
   Skeleton,
+  useToast,
 } from "@chakra-ui/react";
-import {
-  // ChevronDownIcon,
-  // ChevronUpIcon,
-  ArrowBackIcon,
-  ArrowForwardIcon,
-} from "@chakra-ui/icons";
-import { AiOutlineAppstore, AiOutlineHeart, AiFillHeart } from "react-icons/ai"; // Add Heart Icons
+import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import { AiOutlineAppstore, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "./Product.module.css";
@@ -27,66 +23,79 @@ import axios from "axios";
 export const Product = () => {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
-  const [favorites, setFavorites] = useState([]); // New State for Favorites
+  const [favorites, setFavorites] = useState([]);
   const [isError, setIsError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sort, setSort] = useState("recommended");
   const [page, setPage] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const itemsPerPage = 10;
+  const toast = useToast();
 
-  // Map user-friendly categories to FakeStoreAPI's categories
   const categoryMap = {
-    men: "men's clothing",
-    ladies: "women's clothing",
-    jewelery: "jewelery",
-    electronics: "electronics",
+    men: "Men",
+    ladies: "Women",
+    kids: "Kids",
+    home: "All Products", // For "home", we fetch all products
   };
 
   const fetchProducts = async (selectedCategory, sortOrder, currentPage) => {
     try {
       setLoading(true);
       setIsError(false);
-
+      let url = `https://hm-backend-3trj.onrender.com/products`; // Default endpoint for all products
       const apiCategory = categoryMap[selectedCategory] || null;
-      let url = `https://fakestoreapi.com/products?limit=${itemsPerPage}&offset=${
-        currentPage * itemsPerPage
-      }`;
 
-      if (apiCategory) {
-        url = `https://fakestoreapi.com/products/category/${apiCategory}?limit=${itemsPerPage}&offset=${
-          currentPage * itemsPerPage
+      // For "home" category, fetch all products (no specific category)
+      if (selectedCategory === "home") {
+        url = `https://hm-backend-3trj.onrender.com/products?limit=10&page=${currentPage + 1}`;
+      }
+
+      // For other categories, use the specific category endpoint
+      if (apiCategory && apiCategory !== "All Products") {
+        url = `https://hm-backend-3trj.onrender.com/products/category/${apiCategory}?limit=10&page=${
+          currentPage + 1
         }`;
       }
 
       const response = await axios.get(url);
-      let fetchedProducts = response.data;
+      const fetchedProducts = Array.isArray(response.data.products)
+        ? response.data.products
+        : [];
 
       if (sortOrder === "high_by_price") {
-        fetchedProducts = fetchedProducts.sort((a, b) => b.price - a.price);
+        fetchedProducts.sort((a, b) => b.price - a.price);
       } else if (sortOrder === "low_by_price") {
-        fetchedProducts = fetchedProducts.sort((a, b) => a.price - b.price);
+        fetchedProducts.sort((a, b) => a.price - b.price);
       }
 
       setProducts(fetchedProducts);
     } catch (error) {
-      console.error("Failed to fetch products", error);
+      console.error("Failed to fetch products:", error);
       setIsError(true);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
   };
 
+  // Use effect hook to fetch products whenever the category, sort, or page changes
   useEffect(() => {
-    fetchProducts(category, sort, page);
+    if (category === "home") {
+      fetchProducts("home", sort, page); // Fetch all products when category is "home"
+    } else {
+      fetchProducts(category, sort, page); // Fetch products for the specific category
+    }
   }, [category, sort, page]);
 
+  // Handle the sorting change
   const handleSortChange = (sortType) => {
     setSort(sortType);
     setPage(0);
     setDropdownOpen(false);
   };
 
+  // Handle the page change for pagination
   const handlePageChange = (direction) => {
     const newPage = page + direction;
     if (newPage >= 0) {
@@ -94,48 +103,47 @@ export const Product = () => {
     }
   };
 
- const toggleFavorite = (product) => {
-   // Get the current favorites from localStorage, or an empty array if none
-   const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-   // Check if the product is already in the favorites
-   const productIndex = storedFavorites.findIndex(
-     (item) => item.id === product.id,
-   );
-
-   if (productIndex !== -1) {
-     // Product is in favorites, remove it
-     storedFavorites.splice(productIndex, 1);
-   } else {
-     // Product is not in favorites, add it
-     storedFavorites.push(product);
-   }
-
-   // Save the updated favorites list back to localStorage
-   localStorage.setItem("favorites", JSON.stringify(storedFavorites));
-
-   // Update the local state to reflect the changes
-   setFavorites(storedFavorites);
- };
-
-  if (isError) {
-    return (
-      <Box>
-        <Image
-          objectFit={"contain"}
-          width="50%"
-          margin={"auto"}
-          marginTop="20px"
-          src="https://img.freepik.com/free-vector/400-error-bad-request-concept-illustration_114360-1921.jpg?w=996&t=st=1680264699~exp=1680265299~hmac=1e25e41a7b9788ac0f17907336152ff780cec607dd867d577e96987100cb3f00"
-          alt="Error Image"
-        />
-      </Box>
-    );
-  }
+  // Handle adding/removing product to/from wishlist
+  const handleAddWish = async (productId) => {
+    try {
+      // Check if the product is already in the favorites
+      if (favorites.includes(productId)) {
+        // Remove from wishlist
+        await axios.delete(
+          `https://hm-backend-3trj.onrender.com/wishlists/delete/${productId}`,
+        );
+        setFavorites(favorites.filter((id) => id !== productId));
+        toast({
+          title: "Removed from Wishlist",
+          status: "info",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        // Add to wishlist
+        await axios.post(`https://hm-backend-3trj.onrender.com/wishlists/add/${productId}`);
+        setFavorites([...favorites, productId]);
+        toast({
+          title: "Added to Wishlist",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error("Error adding/removing from wishlist:", error);
+      toast({
+        title: "Error",
+        description: "Something went wrong.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
 
   return (
     <div className={styles.products_box}>
-      {/* Header */}
       <div className={styles.products_category_name}>
         <Text fontSize="2xl" fontWeight="bold">
           {category
@@ -143,8 +151,6 @@ export const Product = () => {
             : "ALL PRODUCTS"}
         </Text>
       </div>
-
-      {/* Sorting and Pagination Controls */}
       <div className={styles.products_sort_box}>
         <Menu isOpen={dropdownOpen} onClose={() => setDropdownOpen(false)}>
           <MenuButton
@@ -158,65 +164,18 @@ export const Product = () => {
             {dropdownOpen ? "Sort By -" : "Sort By +"}
           </MenuButton>
           <MenuList background="white" borderColor="black">
-            <MenuItem
-              onClick={() => handleSortChange("recommended")}
-              background="transparent"
-              color="black"
-              _hover={{ background: "#F4F4F4", color: "black" }}
-            >
-              <Flex alignItems="center">
-                <Box
-                  as="span"
-                  boxSize="16px"
-                  border="2px solid black"
-                  borderRadius="full"
-                  mr="8px"
-                  backgroundColor={sort === "recommended" ? "black" : "white"}
-                />
-                Recommended
-              </Flex>
+            <MenuItem onClick={() => handleSortChange("recommended")}>
+              Recommended
             </MenuItem>
-            <MenuItem
-              onClick={() => handleSortChange("low_by_price")}
-              background="transparent"
-              color="black"
-              _hover={{ background: "#F4F4F4", color: "black" }}
-            >
-              <Flex alignItems="center">
-                <Box
-                  as="span"
-                  boxSize="16px"
-                  border="2px solid black"
-                  borderRadius="full"
-                  mr="8px"
-                  backgroundColor={sort === "low_by_price" ? "black" : "white"}
-                />
-                Lowest Price
-              </Flex>
+            <MenuItem onClick={() => handleSortChange("low_by_price")}>
+              Lowest Price
             </MenuItem>
-            <MenuItem
-              onClick={() => handleSortChange("high_by_price")}
-              background="transparent"
-              color="black"
-              _hover={{ background: "#F4F4F4", color: "black" }}
-            >
-              <Flex alignItems="center">
-                <Box
-                  as="span"
-                  boxSize="16px"
-                  border="2px solid black"
-                  borderRadius="full"
-                  mr="8px"
-                  backgroundColor={sort === "high_by_price" ? "black" : "white"}
-                />
-                Highest Price
-              </Flex>
+            <MenuItem onClick={() => handleSortChange("high_by_price")}>
+              Highest Price
             </MenuItem>
           </MenuList>
         </Menu>
-
         <Flex gap={"16px"} alignItems="center">
-          {/* Pagination Controls */}
           <Flex gap={"4px"} alignItems="center">
             <IconButton
               colorScheme="red"
@@ -233,16 +192,12 @@ export const Product = () => {
               icon={<ArrowForwardIcon />}
             />
           </Flex>
-
-          {/* Total Items */}
           <Flex gap={"4px"} alignItems="center">
             <Text>{`${products?.length || 0} items`}</Text>
             <AiOutlineAppstore fontSize={"19px"} />
           </Flex>
         </Flex>
       </div>
-
-      {/* Products Grid */}
       <div className={styles.products_card_box}>
         {loading
           ? Array.from({ length: itemsPerPage }).map((_, index) => (
@@ -253,7 +208,7 @@ export const Product = () => {
               </Stack>
             ))
           : products?.map((product) => (
-              <Link key={product.id} to={`/singleproduct/${product.id}`}>
+              <Link key={product._id} to={`/productdetail/${product._id}`}>
                 <Box
                   border="1px"
                   borderColor="gray.200"
@@ -266,7 +221,7 @@ export const Product = () => {
                   <IconButton
                     aria-label="Add to favorites"
                     icon={
-                      favorites.find((fav) => fav.id === product.id) ? (
+                      favorites.includes(product._id) ? (
                         <AiFillHeart color="red" />
                       ) : (
                         <AiOutlineHeart />
@@ -280,7 +235,7 @@ export const Product = () => {
                     borderRadius="full"
                     onClick={(e) => {
                       e.preventDefault();
-                      toggleFavorite(product);
+                      handleAddWish(product._id);
                     }}
                   />
                   <Image
@@ -293,8 +248,11 @@ export const Product = () => {
                     {product.title}
                   </Text>
                   <Text color="black.600" fontWeight="semibold">
-                    Rs. {Math.round(product.price * 20)}.00
+                    Rs. {Math.round(product.price)}.00
                   </Text>
+                  <Button mt={2} size="sm" colorScheme="teal">
+                    Add to Wishlist
+                  </Button>
                 </Box>
               </Link>
             ))}

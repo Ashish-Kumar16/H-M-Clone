@@ -1,30 +1,74 @@
 import React, { useEffect, useState } from "react";
-import { Box, IconButton, Text, Image } from "@chakra-ui/react";
+import { Box, IconButton, Text, Image, useToast } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Favorite.module.css";
+import axios from "axios"; // To make API requests
+import { useSelector } from "react-redux"; // Import useSelector for accessing authentication state
+import { SignIn } from "../../Components/Navbar/AuthModal/Signin"; // Import SignIn modal
 
-export const Favorites = ({ toggleFavorite }) => {
+export const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isOpen, setIsOpen] = useState(false); // State to manage modal visibility
 
-  // Load favorite products from localStorage on component mount
+  const navigate = useNavigate();
+  const toast = useToast();
+  const { isAuthenticated } = useSelector((state) => state.auth); // Access authentication state
+
+  // Show toast if not authenticated
   useEffect(() => {
-    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(storedFavorites);
-  }, []);
-
-  // Toggle favorite (add/remove from localStorage)
-  const handleFavoriteClick = (product) => {
-    const updatedFavorites = favorites.filter((item) => item.id !== product.id);
-
-    if (updatedFavorites.length === favorites.length) {
-      // If the product wasn't already in the favorites, add it
-      updatedFavorites.push(product);
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in or sign up to view your favorites.",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+      });
+      setIsOpen(true); // Open the SignIn modal when not authenticated
     }
+  }, [isAuthenticated, navigate, toast]);
 
-    setFavorites(updatedFavorites); // Update state
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites)); // Update localStorage
+  // Load favorite products from the API on component mount
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        // Assuming your API endpoint for fetching favorites is `/wishlists`
+        const response = await axios.get("http://localhost:5000/wishlists");
+        setFavorites(response.data.myWishlist); // Assuming the API response structure
+        setLoading(false);
+      } catch (error) {
+        setError("Failed to load favorites");
+        setLoading(false);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchFavorites();
+    }
+  }, [isAuthenticated]);
+
+  // Handle remove favorite (sending DELETE request to API)
+  const handleFavoriteClick = async (productId) => {
+    try {
+      // Send DELETE request to remove product from wishlist
+      await axios.delete(`http://localhost:5000/wishlists/delete/${productId}`);
+      // Update state to remove the product from the list
+      setFavorites(favorites.filter((product) => product._id !== productId));
+    } catch (error) {
+      setError("Failed to remove product from favorites");
+    }
   };
+
+  if (loading) {
+    return <Text>Loading favorites...</Text>;
+  }
+
+  if (error) {
+    return <Text>{error}</Text>;
+  }
 
   if (favorites.length === 0) {
     return (
@@ -41,7 +85,7 @@ export const Favorites = ({ toggleFavorite }) => {
       <Text className={styles.favorites_header}>Your Favorites</Text>
       <div className={styles.favorites_grid}>
         {favorites.map((product) => (
-          <Link key={product.id} to={`/singleproduct/${product.id}`}>
+          <Link key={product._id} to={`/productdetail/${product._id}`}>
             <Box
               border="1px"
               borderColor="gray.200"
@@ -63,7 +107,7 @@ export const Favorites = ({ toggleFavorite }) => {
                 borderRadius="full"
                 onClick={(e) => {
                   e.preventDefault(); // Prevent the link from being clicked
-                  handleFavoriteClick(product); // Toggle favorite
+                  handleFavoriteClick(product._id); // Remove from favorites
                 }}
               />
               <Image
@@ -76,12 +120,15 @@ export const Favorites = ({ toggleFavorite }) => {
                 {product.title}
               </Text>
               <Text color="black.600" fontWeight="semibold">
-                Rs. {Math.round(product.price * 20)}.00
+                Rs. {Math.round(product.price)}.00
               </Text>
             </Box>
           </Link>
         ))}
       </div>
+
+      {/* Sign In Modal */}
+      <SignIn isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   );
 };
