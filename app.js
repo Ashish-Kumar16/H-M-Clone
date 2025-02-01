@@ -3,9 +3,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const connectDB = require("./db");
+const connectDB = require("./server");
 const productRouter = require("./Routes/productRoute");
-const userRouter = require("../Backend/Routes/authRoute");
+const userRouter = require("./Routes/authRoute");
 const orderRouter = require("./Routes/orderRoute");
 const cartRouter = require("./Routes/cartRoute");
 const wishlistRouter = require("./Routes/wishRoute");
@@ -55,11 +55,4 @@ app.use((err, req, res, next) => {
 });
 
 // Start Server
-mongoose
-  .connect("mongodb://localhost:27017/HM-database")
-  .then(() => console.log("DB connected"))
-  .catch((err) => console.log(err));
-
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
-});
+module.exports = app;
