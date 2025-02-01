@@ -18,16 +18,19 @@ const jwt = require("jsonwebtoken");
 // console.log(process.env.DATABASE_PASSWORD); // Should print the database password
 
 const app = express();
-// const cors = require("cors");
-// console.log("Access Secret Key:", process.env.ACCESS_SECRET_KEY);
-// console.log("Refresh Secret Key:", process.env.REFRESH_SECRET_KEY);
+
 
 app.use(
   cors({
-    origin: "http://localhost:5173","https://hm-clone-chi.vercel.app","https://hm-backend-3trj.onrender.com," // Frontend URL
-    credentials: true, // To allow cookies
+    origin: [
+      "http://localhost:5173",
+      "https://hm-clone-chi.vercel.app",
+      "https://hm-backend-3trj.onrender.com",
+    ],
+    credentials: true, // To allow cookies and authentication headers
   }),
 );
+
 
 const PORT = 5000;
 
