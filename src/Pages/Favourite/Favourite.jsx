@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./Favorite.module.css";
 import axios from "axios"; // To make API requests
 import { useSelector } from "react-redux"; // Import useSelector for accessing authentication state
-import { SignIn } from "../../Components/Navbar/AuthModal/Signin"; // Import SignIn modal
+import { SignIn } from "../../Components/AuthModal/Signin"; // Import SignIn modal
 
 export const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
