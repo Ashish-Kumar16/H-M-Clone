@@ -24,7 +24,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Frontend URL
+    origin: "http://localhost:5173","https://hm-clone-chi.vercel.app","https://hm-backend-3trj.onrender.com," // Frontend URL
     credentials: true, // To allow cookies
   }),
 );
