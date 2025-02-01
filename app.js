@@ -14,13 +14,13 @@ const jwt = require("jsonwebtoken");
 // require("dotenv").config(); // This must be at the top of the file
 
 // // Check if environment variables are loaded
-console.log(process.env.DATABASE); // Should print the database connection string
-console.log(process.env.DATABASE_PASSWORD); // Should print the database password
+// console.log(process.env.DATABASE); // Should print the database connection string
+// console.log(process.env.DATABASE_PASSWORD); // Should print the database password
 
 const app = express();
 // const cors = require("cors");
-console.log("Access Secret Key:", process.env.ACCESS_SECRET_KEY);
-console.log("Refresh Secret Key:", process.env.REFRESH_SECRET_KEY);
+// console.log("Access Secret Key:", process.env.ACCESS_SECRET_KEY);
+// console.log("Refresh Secret Key:", process.env.REFRESH_SECRET_KEY);
 
 app.use(
   cors({
@@ -29,7 +29,7 @@ app.use(
   }),
 );
 
-const PORT =  5000;
+const PORT = 5000;
 
 // Middleware
 app.use(express.json());
