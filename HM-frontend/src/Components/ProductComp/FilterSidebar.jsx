@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -6,6 +6,8 @@ import {
   List,
   ListItem,
   ListItemText,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -16,10 +18,10 @@ const RangeSlider = styled(Box)({
   position: "relative",
   width: "100%",
   height: "2px",
-  background: "#e0e0e0", // Light gray background for the track
+  background: "#e0e0e0",
 });
 
-const RangeInput = styled("input")({
+const RangeInput = styled("input")(({ theme }) => ({
   WebkitAppearance: "none",
   position: "absolute",
   width: "100%",
@@ -35,6 +37,10 @@ const RangeInput = styled("input")({
     cursor: "pointer",
     borderRadius: "50%",
     pointerEvents: "auto",
+    [theme.breakpoints.down("sm")]: {
+      width: "16px",
+      height: "16px",
+    },
   },
   "&::-moz-range-thumb": {
     width: "20px",
@@ -43,8 +49,12 @@ const RangeInput = styled("input")({
     cursor: "pointer",
     borderRadius: "50%",
     pointerEvents: "auto",
+    [theme.breakpoints.down("sm")]: {
+      width: "16px",
+      height: "16px",
+    },
   },
-});
+}));
 
 const RangeTrack = styled(Box)(({ minPercent, maxPercent }) => ({
   position: "absolute",
@@ -55,40 +65,55 @@ const RangeTrack = styled(Box)(({ minPercent, maxPercent }) => ({
   width: `${maxPercent - minPercent}%`,
 }));
 
-const ClearButton = styled(Button)({
-  width: "195.41px",
+const ClearButton = styled(Button)(({ theme }) => ({
+  width: "100%",
   height: "48px",
-  padding: "3px 23px",
-});
+  padding: "3px 16px",
+  [theme.breakpoints.up("sm")]: {
+    width: "195.41px",
+    padding: "3px 23px",
+  },
+}));
 
-const ViewButton = styled(Button)({
-  width: "196.59px",
+const ViewButton = styled(Button)(({ theme }) => ({
+  width: "100%",
   height: "48px",
-  padding: "4px 24px",
-});
+  padding: "4px 16px",
+  [theme.breakpoints.up("sm")]: {
+    width: "196.59px",
+    padding: "4px 24px",
+  },
+}));
 
-export const FilterSidebar = ({ setOpenDrawer }) => {
-  const [minValue, setMinValue] = useState(299);
-  const [maxValue, setMaxValue] = useState(29999);
-  const minPrice = 299;
+export const FilterSidebar = ({
+  setOpenDrawer,
+  priceRange,
+  setPriceRange,
+  filteredCount,
+}) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const minPrice = 0;
   const maxPrice = 29999;
 
   const updateRangeTrack = () => {
-    const minPercent = ((minValue - minPrice) / (maxPrice - minPrice)) * 100;
-    const maxPercent = ((maxValue - minPrice) / (maxPrice - minPrice)) * 100;
+    const minPercent =
+      ((priceRange.min - minPrice) / (maxPrice - minPrice)) * 100;
+    const maxPercent =
+      ((priceRange.max - minPrice) / (maxPrice - minPrice)) * 100;
     return { minPercent, maxPercent };
   };
 
   const { minPercent, maxPercent } = updateRangeTrack();
 
   const handleMinChange = (e) => {
-    const newMin = Math.min(parseInt(e.target.value), maxValue - 1);
-    setMinValue(Math.max(newMin, minPrice));
+    const newMin = Math.min(parseInt(e.target.value), priceRange.max - 1);
+    setPriceRange((prev) => ({ ...prev, min: Math.max(newMin, minPrice) }));
   };
 
   const handleMaxChange = (e) => {
-    const newMax = Math.max(parseInt(e.target.value), minValue + 1);
-    setMaxValue(Math.min(newMax, maxPrice));
+    const newMax = Math.max(parseInt(e.target.value), priceRange.min + 1);
+    setPriceRange((prev) => ({ ...prev, max: Math.min(newMax, maxPrice) }));
   };
 
   return (
@@ -96,8 +121,8 @@ export const FilterSidebar = ({ setOpenDrawer }) => {
       sx={{
         bgcolor: "white",
         minHeight: "100vh",
-        width: "472px",
-        p: 4,
+        width: { xs: "100vw", sm: "472px" },
+        p: { xs: 2, sm: 4 },
       }}
     >
       <Box
@@ -108,7 +133,10 @@ export const FilterSidebar = ({ setOpenDrawer }) => {
           mb: 4,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+        <Typography
+          variant={isMobile ? "h5" : "h4"}
+          sx={{ fontWeight: "bold" }}
+        >
           Filter
         </Typography>
         <CloseIcon
@@ -126,10 +154,16 @@ export const FilterSidebar = ({ setOpenDrawer }) => {
             mb: 2,
           }}
         >
-          <Typography sx={{ color: "red", fontWeight: "bold" }}>
+          <Typography
+            sx={{
+              color: "red",
+              fontWeight: "bold",
+              fontSize: { xs: "0.875rem", sm: "1rem" },
+            }}
+          >
             Price range
           </Typography>
-          <ChevronUpIcon sx={{ color: "red" }} />
+          {!isMobile && <ChevronUpIcon sx={{ color: "red" }} />}
         </Box>
         <Box
           sx={{
@@ -137,32 +171,44 @@ export const FilterSidebar = ({ setOpenDrawer }) => {
             justifyContent: "space-between",
             mb: 2,
             color: "grey.500",
-            fontSize: "0.875rem",
+            fontSize: { xs: "0.75rem", sm: "0.875rem" },
           }}
         >
-          <Typography>{minValue} Rs</Typography>
-          <Typography>{maxValue} Rs</Typography>
+          <Typography>₹{priceRange.min}</Typography>
+          <Typography>₹{priceRange.max}</Typography>
         </Box>
         <RangeSlider>
           <RangeInput
             type="range"
             min={minPrice}
             max={maxPrice}
-            value={minValue}
+            value={priceRange.min}
             onChange={handleMinChange}
           />
           <RangeInput
             type="range"
             min={minPrice}
             max={maxPrice}
-            value={maxValue}
+            value={priceRange.max}
             onChange={handleMaxChange}
           />
           <RangeTrack minPercent={minPercent} maxPercent={maxPercent} />
         </RangeSlider>
       </Box>
 
-      <List sx={{ py: 0, "& .MuiListItem-root": { py: 1 } }}>
+      <List
+        sx={{
+          py: 0,
+          "& .MuiListItem-root": {
+            py: 1,
+            "& .MuiListItemText-root": {
+              "& span": {
+                fontSize: { xs: "0.875rem", sm: "1rem" },
+              },
+            },
+          },
+        }}
+      >
         {[
           "Colour",
           "Size",
@@ -179,7 +225,14 @@ export const FilterSidebar = ({ setOpenDrawer }) => {
         ].map((item) => (
           <ListItem
             key={item}
-            sx={{ display: "flex", justifyContent: "space-between", p: 0 }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              p: 0,
+              "& svg": {
+                fontSize: { xs: "1rem", sm: "1.25rem" },
+              },
+            }}
           >
             <ListItemText primary={item} />
             <ChevronRightIcon />
@@ -187,20 +240,36 @@ export const FilterSidebar = ({ setOpenDrawer }) => {
         ))}
       </List>
 
-      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 6 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          mt: 6,
+          gap: 2,
+          flexDirection: { xs: "column", sm: "row" },
+        }}
+      >
         <ClearButton
-          sx={{ bgcolor: "grey.200", color: "grey.600", borderRadius: 1 }}
-          onClick={() => {
-            setMinValue(minPrice);
-            setMaxValue(maxPrice);
+          sx={{
+            bgcolor: "grey.200",
+            color: "grey.600",
+            borderRadius: 1,
+            order: { xs: 2, sm: 1 },
           }}
+          onClick={() => setPriceRange({ min: minPrice, max: maxPrice })}
         >
           Clear
         </ClearButton>
         <ViewButton
-          sx={{ bgcolor: "black", color: "white", borderRadius: 1 }}
+          sx={{
+            bgcolor: "black",
+            color: "white",
+            borderRadius: 1,
+            order: { xs: 1, sm: 2 },
+          }}
+          onClick={() => setOpenDrawer(false)}
         >
-          View [5912]
+          View ({filteredCount})
         </ViewButton>
       </Box>
     </Box>

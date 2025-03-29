@@ -145,6 +145,8 @@ export const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart?.items || []);
   const isAuthenticated = !!user;
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [menuTimeout, setMenuTimeout] = useState(null);
 
   const handleSignOut = () => {
     dispatch(signOut()).then(() => {
@@ -175,6 +177,20 @@ export const Navbar = () => {
           console.error("Search failed:", error);
         });
     }
+  };
+  const handleMenuHover = (menuKey) => {
+    if (menuTimeout) {
+      clearTimeout(menuTimeout);
+      setMenuTimeout(null);
+    }
+    setActiveMenu(menuKey);
+  };
+
+  const handleMenuLeave = () => {
+    const timeoutId = setTimeout(() => {
+      setActiveMenu(null);
+    }, 300); // Reduced delay for smoother transition
+    setMenuTimeout(timeoutId);
   };
 
   const menuItems = [
@@ -366,12 +382,18 @@ export const Navbar = () => {
             list={ladies}
             onClick="ladies"
             isSignInOpen={isOpen}
+            isActive={activeMenu === "ladies"}
+            onHover={() => handleMenuHover("ladies")}
+            onLeave={handleMenuLeave}
           />
           <NavbarSec
             comp="Men"
             list={men}
             onClick="mens"
             isSignInOpen={isOpen}
+            isActive={activeMenu === "men"}
+            onHover={() => handleMenuHover("men")}
+            onLeave={handleMenuLeave}
           />
           <NavbarSec
             comp="Baby"

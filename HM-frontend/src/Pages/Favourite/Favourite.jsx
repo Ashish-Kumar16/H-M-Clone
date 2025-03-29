@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Container, Typography, Grid } from "@mui/material";
-import { FaTrashAlt, FaLock } from "react-icons/fa";
+import { Box, Container, Typography, Grid, Skeleton } from "@mui/material";
+import { FaTrashAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { getWishlist, removeFromWishlist } from "../../redux/wishSlice";
 
@@ -12,6 +12,7 @@ const ItemCard = ({ children, onClick }) => (
       p: 2,
       borderRadius: 1,
       cursor: "pointer",
+      "&:hover": { boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)" },
     }}
     onClick={onClick}
   >
@@ -20,7 +21,7 @@ const ItemCard = ({ children, onClick }) => (
 );
 
 const ImageContainer = ({ children }) => (
-  <Box sx={{ position: "relative", width: "100%", height: 423 }}>
+  <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
     {children}
   </Box>
 );
@@ -28,7 +29,7 @@ const ImageContainer = ({ children }) => (
 const TrashButton = ({ onClick, children }) => (
   <Box
     onClick={(e) => {
-      e.stopPropagation(); // Prevent triggering parent onClick
+      e.stopPropagation();
       onClick();
     }}
     sx={{
@@ -39,6 +40,7 @@ const TrashButton = ({ onClick, children }) => (
       borderRadius: "50%",
       p: 1,
       cursor: "pointer",
+      "&:hover": { bgcolor: "#f5f5f5" },
     }}
   >
     {children}
@@ -58,38 +60,73 @@ export const Favorites = () => {
   }, [dispatch, user]);
 
   const handleRemove = (productCode) => {
-    console.log("Removing productCode:", productCode);
     dispatch(removeFromWishlist(productCode))
       .unwrap()
-      .then(() => {
-        console.log("Item removed successfully");
-      })
-      .catch((err) => {
-        console.error("Remove failed:", err);
-      });
+      .catch((err) => console.error("Remove failed:", err));
+  };
+
+  const handleCardClick = (item) => {
+    const productId = item.productId?._id || item.productId;
+    const productCode = item.productCode;
+    navigate(`/product/${productId}/${productCode}`);
   };
 
   if (!user?.id) {
-    return <Typography>Please log in to view your favorites.</Typography>;
+    return (
+      <Container maxWidth="lg" sx={{ py: 4, textAlign: "center" }}>
+        <Typography variant="h6">
+          Please log in to view your favorites.
+        </Typography>
+      </Container>
+    );
   }
 
   if (status === "loading") {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Box sx={{ minHeight: "100vh" }}>
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+          <Typography
+            variant="h3"
+            sx={{ fontWeight: 700, textAlign: "center", mb: 6 }}
+          >
+            Favourites
+          </Typography>
+          <Grid container spacing={2}>
+            {[1, 2, 3, 4].map((item) => (
+              <Grid item xs={6} md={6} lg={3} key={item}>
+                <Skeleton
+                  variant="rectangular"
+                  width="100%"
+                  height={423}
+                  sx={{ mb: 1 }}
+                />
+                <Skeleton width="60%" height={24} sx={{ mb: 0.5 }} />
+                <Skeleton width="40%" height={24} sx={{ mb: 0.5 }} />
+                <Skeleton width="50%" height={24} sx={{ mb: 0.5 }} />
+                <Skeleton width="30%" height={24} />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+    );
   }
 
   if (status === "failed") {
-    return <Typography>Error: {error}</Typography>;
+    return (
+      <Container maxWidth="lg" sx={{ py: 4, textAlign: "center" }}>
+        <Typography color="error">Error: {error}</Typography>
+      </Container>
+    );
   }
 
   if (items.length === 0) {
-    return <Typography>Your wishlist is empty.</Typography>;
+    return (
+      <Container maxWidth="lg" sx={{ py: 4, textAlign: "center" }}>
+        <Typography variant="h6">Your wishlist is empty.</Typography>
+      </Container>
+    );
   }
-
-  const handleCardClick = (item) => {
-    const productId = item.productId?._id || item.productId; // Handle populated or raw ID
-    const productCode = item.productCode; // Use productCode for navigation
-    navigate(`/product/${productId}/${productCode}`); // Adjust URL to include productCode
-  };
 
   return (
     <Box sx={{ minHeight: "100vh" }}>
@@ -101,11 +138,11 @@ export const Favorites = () => {
           Favourites
         </Typography>
         <Typography sx={{ textAlign: "right", mb: 4 }}>
-          {items.length} Items
+          {items.length} {items.length === 1 ? "Item" : "Items"}
         </Typography>
         <Grid container spacing={2} sx={{ textAlign: "left" }}>
           {items.map((item) => (
-            <Grid item xs={12} md={6} lg={3} key={item._id}>
+            <Grid item xs={6} md={6} lg={3} key={item._id}>
               <ItemCard onClick={() => handleCardClick(item)}>
                 <Box>
                   <ImageContainer>
@@ -113,7 +150,7 @@ export const Favorites = () => {
                       src={
                         item.images?.[0]?.url || "https://placehold.co/282x423"
                       }
-                      alt={item.title || "Unknown Product"}
+                      alt={item.title || "Product image"}
                       style={{
                         width: "100%",
                         height: "100%",
@@ -121,22 +158,31 @@ export const Favorites = () => {
                       }}
                     />
                     <TrashButton onClick={() => handleRemove(item.productCode)}>
-                      <FaTrashAlt />
+                      <FaTrashAlt size={16} />
                     </TrashButton>
                   </ImageContainer>
-                  <Typography sx={{ fontSize: "0.875rem" }}>
+                  <Typography sx={{ fontSize: "0.875rem", mt: 1.5 }}>
                     {item.title || "No Title"}
                   </Typography>
-                  <Typography sx={{ fontSize: "0.875rem", fontWeight: 700 }}>
-                    {item.price || "N/A"}
+                  <Typography
+                    sx={{ fontSize: "0.875rem", fontWeight: 700, my: 0.5 }}
+                  >
+                    {item.price || 0}
                   </Typography>
-                  <Typography sx={{ fontSize: "0.875rem" }}>
+                  <Typography sx={{ fontSize: "0.875rem", color: "gray" }}>
                     Colour: {item.color || "Unknown"}
                   </Typography>
                   <Typography
-                    sx={{ fontSize: "0.875rem", mb: "2px", color: "#2563eb" }}
                     component={Link}
-                    href="#"
+                    to="/stores"
+                    sx={{
+                      fontSize: "0.875rem",
+                      color: "#2563eb",
+                      display: "block",
+                      mt: 0.5,
+                      textDecoration: "none",
+                      "&:hover": { textDecoration: "underline" },
+                    }}
                   >
                     Find in store
                   </Typography>

@@ -39,15 +39,14 @@ export const Product = () => {
   const [page, setPage] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [priceRange, setPriceRange] = useState({ min: 299, max: 29999 });
 
   const theme = useTheme();
-  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // Mobile
-  const isMd = useMediaQuery(theme.breakpoints.between("sm", "lg")); // Tablet
-  const isLg = useMediaQuery(theme.breakpoints.up("lg")); // Desktop
+  const isXs = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMd = useMediaQuery(theme.breakpoints.between("sm", "lg"));
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
-  // Adjust items per page based on screen size
-  const itemsPerPage = isXs ? 12 : isMd ? 15 : 20; // Fewer items per page on smaller screens
-
+  const itemsPerPage = isXs ? 12 : isMd ? 15 : 20;
   const { enqueueSnackbar } = useSnackbar();
 
   const categoryMap = {
@@ -77,12 +76,22 @@ export const Product = () => {
     }
   }, [category, dispatch, isAuthenticated]);
 
+  useEffect(() => {
+    setPage(0);
+  }, [priceRange, sort]);
+
   const sortedAndPaginatedProducts = () => {
-    let filteredProducts = [...products];
-    filteredProducts = filteredProducts.map((product) => ({
-      ...product,
-      price: parseFloat(product.variants?.[0]?.price?.replace("Rs. ", "") || 0),
-    }));
+    let filteredProducts = [...products]
+      .map((product) => ({
+        ...product,
+        price: parseFloat(
+          product.variants?.[0]?.price?.replace("Rs. ", "") || 0,
+        ),
+      }))
+      .filter(
+        (product) =>
+          product.price >= priceRange.min && product.price <= priceRange.max,
+      );
 
     if (sort === "high_by_price") {
       filteredProducts.sort((a, b) => b.price - a.price);
@@ -91,12 +100,18 @@ export const Product = () => {
     }
 
     const start = page * itemsPerPage;
-    const end = start + itemsPerPage;
-    return filteredProducts.slice(start, end);
+    return filteredProducts.slice(start, start + itemsPerPage);
   };
 
   const displayedProducts = sortedAndPaginatedProducts();
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    products.filter((product) => {
+      const price = parseFloat(
+        product.variants?.[0]?.price?.replace("Rs. ", "") || 0,
+      );
+      return price >= priceRange.min && price <= priceRange.max;
+    }).length / itemsPerPage,
+  );
 
   const handleSortChange = (sortType) => {
     setSort(sortType);
@@ -117,151 +132,128 @@ export const Product = () => {
         maxWidth: { xs: "100%", md: "100%" },
         minHeight: "100vh",
         margin: "0 auto",
-        width: "100%",
       }}
     >
       <Typography
         variant="h4"
         fontWeight="bold"
         sx={{
-          marginBottom: { xs: "10px", sm: "15px", md: "20px" },
+          mb: { xs: 2, sm: 3 },
           textAlign: "center",
           fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
         }}
       >
         {category
-          ? `PRODUCTS RELATED TO ${category?.toUpperCase()}`
+          ? `PRODUCTS RELATED TO ${category.toUpperCase()}`
           : "ALL PRODUCTS"}
       </Typography>
 
       <Stack
-        direction={{ xs: "column", sm: "row" }}
+        direction={{ xs: "row", sm: "row" }}
         justifyContent="space-between"
-        alignItems={{ xs: "stretch", sm: "center" }}
-        mb={{ xs: 2, sm: 3 }}
-        spacing={{ xs: 1, sm: 0 }}
+        alignItems="center"
+        mb={3}
+        sx={{
+          width: "100%",
+          paddingX: { xs: 1, sm: 0 },
+        }}
       >
         <Button
           onClick={(e) => setAnchorEl(e.currentTarget)}
           sx={{
-            background: "transparent",
             color: "black",
-            fontSize: { xs: "0.9rem", sm: "1rem" },
+            padding: { xs: "6px", sm: "6px 16px" },
+            minWidth: "unset",
+            "&:hover": { backgroundColor: "transparent" },
           }}
         >
           Sort By {anchorEl ? "-" : "+"}
         </Button>
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={() => setAnchorEl(null)}
-          PaperProps={{
-            sx: { minWidth: "150px" },
+
+        <Button
+          onClick={() => setOpenDrawer(true)}
+          startIcon={<FilterList />}
+          sx={{
+            color: "#000",
+            textTransform: "none",
+            padding: "6px 16px",
+            ml: "auto",
+            "& .MuiButton-startIcon": { marginRight: { xs: 0, sm: "8px" } },
           }}
         >
-          <MenuItem onClick={() => handleSortChange("recommended")}>
-            Recommended
-          </MenuItem>
-          <MenuItem onClick={() => handleSortChange("low_by_price")}>
-            Lowest Price
-          </MenuItem>
-          <MenuItem onClick={() => handleSortChange("high_by_price")}>
-            Highest Price
-          </MenuItem>
-        </Menu>
-
-        <Stack
-          direction="row"
-          spacing={1}
-          alignItems="center"
-          justifyContent={{ xs: "flex-start", sm: "flex-end" }}
-        >
-          <Button
-            onClick={() => setOpenDrawer(true)}
-            sx={{
-              background: "transparent",
-              color: "black",
-              fontSize: { xs: "0.9rem", sm: "1rem" },
-            }}
-            startIcon={<FilterList />}
+          <Typography
+            component="span"
+            sx={{ display: { xs: "none", sm: "inline" } }}
           >
             Filter
-          </Button>
-          <Apps fontSize={isXs ? "small" : "medium"} />
-        </Stack>
+          </Typography>
+        </Button>
       </Stack>
 
       <Grid container spacing={{ xs: 1, sm: 2 }} justifyContent="center">
         {status === "loading"
           ? Array.from({ length: itemsPerPage }).map((_, index) => (
-              <Grid
-                item
-                xs={12} // 1 per row on mobile
-                sm={4} // 3 per row on tablet
-                lg={3} // 4 per row on desktop
-                key={index}
-              >
-                <Stack spacing={1}>
-                  <Skeleton
-                    variant="rectangular"
-                    width="100%"
-                    height={{ xs: 150, sm: 200, md: 250 }}
-                  />
-                  <Skeleton variant="text" width="60%" />
-                  <Skeleton variant="text" width="40%" />
+              <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
+                <Stack spacing={1} sx={{ p: 1 }}>
+                  <Box
+                    sx={{
+                      position: "relative",
+                      pt: { xs: "100%", sm: "150%" },
+                    }}
+                  >
+                    <Skeleton
+                      variant="rectangular"
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  </Box>
+                  <Skeleton variant="text" width="80%" height={24} />
+                  <Skeleton variant="text" width="40%" height={20} />
+                  <Box sx={{ display: "flex", gap: 0.5, mt: 1 }}>
+                    {[0, 1, 2].map((i) => (
+                      <Skeleton
+                        key={i}
+                        variant="circular"
+                        width={16}
+                        height={16}
+                        sx={{ border: "1px solid #ddd" }}
+                      />
+                    ))}
+                  </Box>
                 </Stack>
               </Grid>
             ))
           : displayedProducts.map((product) => {
-              const defaultVariantCode =
-                product.variants?.[0]?.productCode || "";
-              const linkUrl = defaultVariantCode
-                ? `/product/${product._id}/${defaultVariantCode}`
-                : `/product/${product._id}`;
+              const defaultVariant = product.variants?.[0] || {};
+              const defaultVariantCode = defaultVariant.productCode || "";
+              const images =
+                defaultVariant.images?.map((img) => ({
+                  url: img.url,
+                  alt: product.title,
+                })) || [];
 
               return (
-                <Grid
-                  item
-                  xs={12} // 1 per row on mobile
-                  sm={4} // 3 per row on tablet
-                  lg={3} // 4 per row on desktop
-                  key={product._id}
-                >
+                <Grid item xs={6} sm={4} md={3} lg={3} key={product._id}>
                   <Link
-                    to={linkUrl}
-                    style={{
-                      textDecoration: "none",
-                      color: "inherit",
-                      display: "block",
-                    }}
+                    to={`/product/${product._id}/${defaultVariantCode}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <ErrorBoundary>
                       <ProductCard
-                        images={
-                          product.variants?.[0]?.images?.length > 0
-                            ? [
-                                {
-                                  src: product.variants[0].images[0].url,
-                                  alt: product.title,
-                                },
-                              ]
-                            : [
-                                {
-                                  src: "https://via.placeholder.com/300x300?text=No+Image",
-                                  alt: product.title,
-                                },
-                              ]
-                        }
-                        category={product.category || ""}
+                        images={images}
                         title={product.title}
                         price={parseFloat(
-                          product.variants?.[0]?.price?.replace("Rs. ", "") ||
-                            0,
+                          defaultVariant.price?.replace("Rs. ", "") || 0,
                         )}
                         swatches={
-                          product.variants?.map((variant) => ({
-                            colorCode: variant.color,
-                            productCode: variant.productCode,
+                          product.variants?.map((v) => ({
+                            colorCode: v.color,
+                            productCode: v.productCode,
                           })) || []
                         }
                         productId={product._id}
@@ -274,49 +266,89 @@ export const Product = () => {
             })}
       </Grid>
 
-      <Stack
-        direction="row"
-        justifyContent="center"
-        spacing={1}
-        mt={{ xs: 2, sm: 3, md: 4 }}
-      >
-        <IconButton
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 0}
-          size={isXs ? "small" : "medium"}
-        >
-          <ArrowBackIos fontSize="inherit" />
-        </IconButton>
-        <Typography
-          variant="body1"
-          sx={{
-            fontSize: { xs: "0.9rem", sm: "1rem" },
-            pt: { xs: "4px", sm: "6px" },
-          }}
-        >
-          Page {page + 1} of {totalPages}
-        </Typography>
-        <IconButton
+      <Stack direction="column" alignItems="center" spacing={2} mt={4}>
+        <Button
+          variant="text"
           onClick={() => handlePageChange(page + 1)}
           disabled={page >= totalPages - 1}
-          size={isXs ? "small" : "medium"}
+          sx={{
+            color: "white",
+            textTransform: "none",
+            fontWeight: 400,
+            backgroundColor: "black",
+            "&:hover": { opacity: 0.8 },
+          }}
         >
-          <ArrowForwardIos fontSize="inherit" />
-        </IconButton>
+          Load next page
+        </Button>
+
+        <Stack direction="row" spacing={1} alignItems="center">
+          <IconButton
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 0}
+            size="small"
+            sx={{ color: "text.primary", "&:disabled": { opacity: 0.5 } }}
+          >
+            <ArrowBackIos fontSize="small" />
+          </IconButton>
+
+          {[...Array(totalPages).keys()].map((pageNumber) => {
+            if (
+              pageNumber === 0 ||
+              pageNumber === totalPages - 1 ||
+              (pageNumber >= page - 1 && pageNumber <= page + 1)
+            ) {
+              return (
+                <Button
+                  key={pageNumber}
+                  onClick={() => setPage(pageNumber)}
+                  sx={{
+                    minWidth: "32px",
+                    height: "32px",
+                    color:
+                      page === pageNumber ? "primary.main" : "text.primary",
+                    fontWeight: page === pageNumber ? 700 : 400,
+                    "&:hover": { backgroundColor: "transparent" },
+                  }}
+                >
+                  {pageNumber + 1}
+                </Button>
+              );
+            }
+
+            if (pageNumber === page + 2 && pageNumber < totalPages - 2) {
+              return (
+                <Typography key={pageNumber} sx={{ px: 1 }}>
+                  ...
+                </Typography>
+              );
+            }
+
+            return null;
+          })}
+
+          <IconButton
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages - 1}
+            size="small"
+            sx={{ color: "text.primary", "&:disabled": { opacity: 0.5 } }}
+          >
+            <ArrowForwardIos fontSize="small" />
+          </IconButton>
+        </Stack>
       </Stack>
 
       <Drawer
         anchor="right"
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
-        PaperProps={{
-          sx: {
-            width: { xs: "80%", sm: "50%", md: "30%" },
-            maxWidth: "400px",
-          },
-        }}
       >
-        <FilterSidebar setOpenDrawer={setOpenDrawer} />
+        <FilterSidebar
+          setOpenDrawer={setOpenDrawer}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
+          filteredCount={displayedProducts.length}
+        />
       </Drawer>
     </Box>
   );

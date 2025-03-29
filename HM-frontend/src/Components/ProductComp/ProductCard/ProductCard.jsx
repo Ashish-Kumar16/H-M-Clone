@@ -21,44 +21,34 @@ const FALLBACK_IMAGE = "https://via.placeholder.com/300x300?text=No+Image";
 const SingleCard = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  justifyContent: "flex-start",
-  alignItems: "flex-start",
   cursor: "pointer",
   width: "100%",
-  background: "none",
-  border: "none",
-  padding: 0,
-  transition: "none",
-  marginBottom: theme.spacing(1),
+  position: "relative",
+  transition: "transform 0.2s",
   "&:hover": {
-    boxShadow: "none",
+    transform: "translateY(-4px)",
   },
 }));
 
-const CardImageContainer = styled(Box)(({ theme }) => ({
+const CardImageContainer = styled(Box)({
   position: "relative",
   width: "100%",
-  // overflow: "hidden",
   aspectRatio: "2/3",
-  [theme.breakpoints.down("sm")]: {
-    aspectRatio: "1/1",
-  },
-}));
+  overflow: "hidden",
+});
 
 const StyledImage = styled("img")({
   width: "100%",
-  // height: "100%",
-  objectFit: "contain",
-  opacity: 1,
+  height: "100%",
+  objectFit: "cover",
+  transition: "opacity 0.3s",
 });
 
 const FavoriteIconButton = styled(IconButton)(({ theme }) => ({
   position: "absolute",
   top: theme.spacing(1),
   right: theme.spacing(1),
-  background: "none",
-  borderRadius: "50%",
-  padding: 4,
+  transition: "color 0.3s ease",
 }));
 
 const CarouselArrow = styled(IconButton)(({ theme }) => ({
@@ -66,21 +56,12 @@ const CarouselArrow = styled(IconButton)(({ theme }) => ({
   top: "50%",
   transform: "translateY(-50%)",
   backgroundColor: "rgba(255, 255, 255, 0.8)",
-  borderRadius: "50%",
-  padding: 4,
-  opacity: 0,
-  transition: theme.transitions.create("opacity", {
-    duration: theme.transitions.duration.standard,
-    easing: theme.transitions.easing.easeInOut,
-  }),
-  display: "none",
-  zIndex: 2,
   "&:hover": {
     backgroundColor: "rgba(255, 255, 255, 1)",
   },
-  [theme.breakpoints.up("sm")]: {
-    display: "flex",
-  },
+  opacity: 0,
+  transition: "opacity 0.2s",
+  display: { xs: "none", sm: "flex" },
 }));
 
 const ArrowPrev = styled(CarouselArrow)(({ theme }) => ({
@@ -91,57 +72,27 @@ const ArrowNext = styled(CarouselArrow)(({ theme }) => ({
   right: theme.spacing(1),
 }));
 
-const CardContent = styled(Box)(({ theme }) => ({
-  display: "block",
-  position: "relative",
-  padding: `${theme.spacing(0.5)} ${theme.spacing(1)} 0`,
+const CardContent = styled(Box)({
+  padding: "8px 0",
   width: "100%",
-  [theme.breakpoints.up("lg")]: {
-    padding: `${theme.spacing(0.5)} ${theme.spacing(2)} 0`,
-  },
-}));
+  textAlign: "left",
+});
 
-const StyledTitle = styled(Typography)(({ theme }) => ({
-  color: "black",
-
-  margin: `${theme.spacing(0.5)} 0 0`,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-  "&:hover": {
-    color: theme.palette.primary.dark,
-  },
-}));
-
-const PriceWrapper = styled(Box)(({ theme }) => ({
+const ColorBox = styled(Box)({
   display: "flex",
-  flexFlow: "row",
-  alignItems: "center",
-  gap: theme.spacing(0.5),
-  margin: `0 0 ${theme.spacing(0.25)}`,
-}));
-
-const ColorBox = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  marginTop: 4,
-  fontSize: 12,
-  gap: theme.spacing(0.25),
-}));
+  gap: "4px",
+  marginTop: "4px",
+});
 
 const Swatch = styled(Box)(({ theme }) => ({
-  display: "block",
-  height: 8,
-  width: 8,
-  fontSize: 0,
+  width: "16px",
+  height: "16px",
+  borderRadius: "50%",
   border: `1px solid ${theme.palette.divider}`,
-  textIndent: "-9999px",
-  cursor: "pointer",
 }));
 
 export const ProductCard = ({
   images = [],
-  category = "",
   title = "Untitled Product",
   swatches = [],
   price = 0,
@@ -150,166 +101,153 @@ export const ProductCard = ({
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isHoveringFavorite, setIsHoveringFavorite] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { items: wishlistItems } = useSelector((state) => state.wishlist);
   const { user } = useSelector((state) => state.auth);
-  const isAuthenticated = !!user && !!user.id;
+  const isAuthenticated = !!user?.id;
 
   const validImages =
-    Array.isArray(images) && images.length > 0
-      ? images
-      : [{ src: FALLBACK_IMAGE, alt: "No Image Available" }];
+    images.length > 0
+      ? images.map((img) => ({
+          src: img.url || FALLBACK_IMAGE,
+          alt: img.alt || title,
+        }))
+      : [{ src: FALLBACK_IMAGE, alt: "No image available" }];
 
-  const defaultVariantIndex = 0;
-  const defaultSize = "S";
   const isFavorite = wishlistItems.some(
     (item) => item.productCode === productCode,
   );
 
   const handleAddWish = (e) => {
-    e.stopPropagation();
     e.preventDefault();
-
     if (!isAuthenticated) {
-      enqueueSnackbar("Please log in to add products to your wishlist.", {
+      enqueueSnackbar("Please login to add to wishlist", {
         variant: "warning",
       });
-      // navigate("/signin");
       return;
     }
 
-    const wishData = {
-      productId,
-      variantIndex: defaultVariantIndex,
-      size: defaultSize,
-    };
+    const wishData = { productId, variantIndex: 0, size: "S" };
 
     if (isFavorite) {
       dispatch(removeFromWishlist(productCode))
         .unwrap()
         .then(() => {
-          enqueueSnackbar("Removed from wishlist!", { variant: "info" });
           dispatch(getWishlist());
+          enqueueSnackbar("Removed from wishlist", { variant: "info" });
         })
-        .catch((err) =>
-          enqueueSnackbar(`Failed to remove: ${err.message}`, {
+        .catch((error) => {
+          enqueueSnackbar("Failed to remove from wishlist", {
             variant: "error",
-          }),
-        );
+          });
+        });
     } else {
       dispatch(addToWishlist(wishData))
         .unwrap()
         .then(() => {
-          enqueueSnackbar("Added to wishlist!", { variant: "success" });
           dispatch(getWishlist());
+          enqueueSnackbar("Added to wishlist", { variant: "success" });
         })
-        .catch((err) =>
-          enqueueSnackbar(`Failed to add: ${err.message}`, {
-            variant: "error",
-          }),
-        );
+        .catch((error) => {
+          enqueueSnackbar("Failed to add to wishlist", { variant: "error" });
+        });
     }
   };
 
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === validImages.length - 1 ? 0 : prevIndex + 1,
-    );
-  };
-
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? validImages.length - 1 : prevIndex - 1,
-    );
-  };
-
-  const handleSwatchClick = (e) => {
-    e.preventDefault();
-    if (productId) {
-      navigate(`/productdetail/${productId}`);
+  const handleImageError = (e) => {
+    if (e.target.src !== FALLBACK_IMAGE) {
+      e.target.src = FALLBACK_IMAGE;
     }
   };
-
-  const formattedPrice = `Rs. ${price.toLocaleString("en-IN")}.00`;
 
   return (
     <SingleCard
-      component="article"
-      
-      sx={{
-        "&:hover": {
-          "& .carouselArrow": {
-            opacity: 1,
-          },
-        },
-      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <CardImageContainer >
+      <CardImageContainer>
         <StyledImage
           src={validImages[currentImageIndex].src}
           alt={validImages[currentImageIndex].alt}
+          onError={handleImageError}
+          loading="lazy"
         />
+
         {validImages.length > 1 && (
           <>
             <ArrowPrev
-              onClick={handlePrevImage}
-              disabled={currentImageIndex === 0}
-              className="carouselArrow"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentImageIndex(
+                  (prev) =>
+                    (prev - 1 + validImages.length) % validImages.length,
+                );
+              }}
+              sx={{ opacity: isHovered ? 1 : 0 }}
             >
-              <ArrowBackIos />
+              <ArrowBackIos fontSize="small" />
             </ArrowPrev>
             <ArrowNext
-              onClick={handleNextImage}
-              disabled={currentImageIndex === validImages.length - 1}
-              className="carouselArrow"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentImageIndex((prev) => (prev + 1) % validImages.length);
+              }}
+              sx={{ opacity: isHovered ? 1 : 0 }}
             >
-              <ArrowForwardIos />
+              <ArrowForwardIos fontSize="small" />
             </ArrowNext>
           </>
         )}
+
         <FavoriteIconButton
-          aria-label="Add to favorites"
           onClick={handleAddWish}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          sx={{ color: isFavorite ? "red" : "black" }}
+          size="small"
+          onMouseEnter={() => setIsHoveringFavorite(true)}
+          onMouseLeave={() => setIsHoveringFavorite(false)}
+          sx={{
+            color: isFavorite ? "error.main" : "inherit",
+            "&:hover": {
+              color: "error.main",
+              backgroundColor: "transparent",
+            },
+          }}
         >
-          {isFavorite ? (
-            <Favorite />
-          ) : isHovered ? (
-            <Favorite sx={{ color: "red" }} />
+          {isFavorite || isHoveringFavorite ? (
+            <Favorite fontSize="small" />
           ) : (
-            <FavoriteBorder />
+            <FavoriteBorder fontSize="small" />
           )}
         </FavoriteIconButton>
       </CardImageContainer>
-      <CardContent alignItems={"start"}>
-        <StyledTitle variant="body2" fontWeight={700}>
+
+      <CardContent>
+        <Typography
+          variant="body2"
+          fontWeight={700}
+          noWrap
+          sx={{ textAlign: "left" }}
+        >
           {title.toUpperCase()}
-        </StyledTitle>
-        <PriceWrapper>
-          <Typography variant="body2" fontWeight={700} color="text.primary">
-            {formattedPrice}
-          </Typography>
-        </PriceWrapper>
+        </Typography>
+        <Typography variant="body2" fontWeight={700} sx={{ textAlign: "left" }}>
+          Rs. {price.toLocaleString("en-IN")}
+        </Typography>
         <ColorBox>
-          {Array.isArray(swatches) &&
-            swatches
-              .slice(0, 3)
-              .map((el, index) => (
-                <Swatch
-                  key={index}
-                  sx={{ backgroundColor: el?.colorCode || "#ccc" }}
-                  onClick={handleSwatchClick}
-                  title={`View ${title} in ${el?.colorCode}`}
-                />
-              ))}
-          {Array.isArray(swatches) && swatches.length > 3 && (
-            <Typography variant="caption" color="text.secondary">
-              +{swatches.length - 3}
-            </Typography>
+          {swatches.slice(0, 3).map((swatch, index) => (
+            <Swatch
+              key={index}
+              sx={{ backgroundColor: swatch.colorCode }}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/product/${productId}/${swatch.productCode}`);
+              }}
+            />
+          ))}
+          {swatches.length > 3 && (
+            <Typography variant="caption">+{swatches.length - 3}</Typography>
           )}
         </ColorBox>
       </CardContent>
