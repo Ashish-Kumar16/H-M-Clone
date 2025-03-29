@@ -11,7 +11,7 @@ import { SingleProductPage } from "./SingleProductPage/SingleProductPage";
 import SettingsRoutes from "../Components/Accounts/SettingsRoutes"; // Adjust path if needed
 import { Checkout } from "../Components/Checkout/Checkout";
 import { OrderDetails } from "../Pages/orders/orderDetail";
-import { SearchResult } from "../components/ProductComp/searchResult";
+import SearchResult from "../components/ProductComp/searchResult";
 export const AllRoutes = () => {
   const navigate = useNavigate();
 
