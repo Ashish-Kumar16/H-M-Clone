@@ -24,7 +24,7 @@ const addProduct = async (req, res) => {
 // Get all products
 const getAllProducts = async (req, res) => {
   try {
-    const products = await ProductModel.find().select("-variants.images");
+    const products = await ProductModel.find();
     res.status(200).json({
       success: true,
       message: "Products retrieved successfully",

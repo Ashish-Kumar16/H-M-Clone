@@ -35,6 +35,7 @@ app.use(
       "http://localhost:5173",
       "https://hm-clone-chi.vercel.app",
       "https://hm-backend-3trj.onrender.com",
+      "https://h-m-clone-assl.vercel.app",
     ],
     credentials: true,
   }),
