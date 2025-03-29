@@ -1,4 +1,4 @@
-const ProductModel = require("../models/ProductModel"); // Adjust path to your model file
+const ProductModel = require("../Models/ProductModel"); // Adjust path to your model file
 
 // Add a new product
 const addProduct = async (req, res) => {
