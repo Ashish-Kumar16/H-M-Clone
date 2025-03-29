@@ -34,7 +34,7 @@ import { searchProductsByQuery } from "../../redux/productSlice"; // Import the 
 import logo from "../../assets/logohm.png";
 import { SignIn } from "../Accounts/Auth/SigninCard";
 import { NavbarSec } from "./NavbarItems";
-import { ladies, men, kids, sale, home, baby } from "./subCategory";
+import { ladies, men, kids, home, baby } from "./subCategory";
 
 // Styled Components
 const StyledAppBar = styled(AppBar)({
@@ -183,7 +183,7 @@ export const Navbar = () => {
     { text: "Baby", path: "/kids" },
     { text: "Kids", path: "/kids" },
     { text: "Home", path: "/home" },
-    { text: "Sale", path: "/sale" },
+    // { text: "Sale", path: "/sale" },
     { text: "Sustainability", path: "/sustainability" },
     { text: "Customer Service", path: "/customer-service" },
     { text: "Newsletter", path: "/newsletter" },
@@ -391,12 +391,12 @@ export const Navbar = () => {
             onClick="home"
             isSignInOpen={isOpen}
           />
-          <NavbarSec
+          {/* <NavbarSec
             comp="Sale"
             list={sale}
             onClick="sale"
             isSignInOpen={isOpen}
-          />
+          /> */}
         </Box>
         <Box flex={1}>
           <SearchField

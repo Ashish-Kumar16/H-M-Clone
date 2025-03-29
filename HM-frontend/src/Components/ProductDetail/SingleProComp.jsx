@@ -98,7 +98,7 @@ export const SingleProComp = () => {
       enqueueSnackbar("Please log in to add products to the cart.", {
         variant: "warning",
       });
-      navigate("/signin");
+      // navigate("/signin");
       return;
     }
 

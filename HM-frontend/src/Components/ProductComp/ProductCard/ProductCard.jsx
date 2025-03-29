@@ -176,7 +176,7 @@ export const ProductCard = ({
       enqueueSnackbar("Please log in to add products to your wishlist.", {
         variant: "warning",
       });
-      navigate("/signin");
+      // navigate("/signin");
       return;
     }
 

@@ -114,7 +114,8 @@ export const Product = () => {
     <Box
       sx={{
         padding: { xs: "10px", sm: "15px", md: "20px" },
-        maxWidth: { xs: "100%", md: "1200px" },
+        maxWidth: { xs: "100%", md: "100%" },
+        minHeight: "100vh",
         margin: "0 auto",
         width: "100%",
       }}
