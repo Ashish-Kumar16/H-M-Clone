@@ -11,7 +11,7 @@ import { SingleProductPage } from "./SingleProductPage/SingleProductPage";
 import SettingsRoutes from "../Components/Accounts/SettingsRoutes"; // Adjust path if needed
 import { Checkout } from "../Components/Checkout/Checkout";
 import { OrderDetails } from "../Pages/orders/orderDetail";
-import SearchResult from "../components/ProductComp/searchResult";
+// import SearchResult from "../components/ProductComp/searchResult";
 export const AllRoutes = () => {
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ export const AllRoutes = () => {
       />
       <Route path="/product/:id" element={<SingleProductPage />} />
       <Route path="/product/:id/:variantCode" element={<SingleProductPage />} />
-      <Route path="/search" element={<SearchResult />} />
+      {/* <Route path="/search" element={<SearchResult />} /> */}
       {/* Sign Up Page */}
       <Route path="/signup" element={<SignUpPage />} />
       {/* Account Detail Page with nested settings routes */}
