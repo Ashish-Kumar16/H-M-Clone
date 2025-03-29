@@ -1,0 +1,380 @@
+/* Container for the entire product page */
+.single_page_container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Wrapper for product images and details */
+.product_wrapper {
+  display: flex;
+  gap: 40px;
+  max-width: 100%;
+  min-height: 100vh;
+  align-items: flex-start;
+}
+
+/* Image box containing the product images */
+.img_box {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grid for displaying product images */
+.image_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  width: 100%;
+}
+
+/* Styling for main and secondary images */
+.main_image,
+.secondary_image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Details section for product information */
+.single_page_details {
+  flex: 1;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+  padding: 32px 32px 0px;
+}
+
+/* Title styling */
+.title {
+  font-size: 1rem !important;
+  font-weight: bolder !important;
+
+  margin-bottom: 1rem;
+}
+
+/* MRP text styling */
+.mrp_text {
+  font-size: 0.8125rem !important;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+/* Price styling */
+.price {
+  font-size: 1.3rem !important;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* Color label styling */
+.color_label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Color swatch grid container */
+.color_swatch_grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%; /* Match the width of single_page_details */
+  gap: 0;
+  margin: 0;
+}
+
+/* Individual color swatch */
+.color_swatch {
+  display: block;
+  width: 100%; /* Full width of grid cell */
+  position: relative;
+  line-height: 0;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: none;
+  border-bottom: none;
+  aspect-ratio: 2/3;
+}
+
+/* Last swatch in the row */
+.color_swatch_last {
+  border-right: 1px solid #ddd;
+}
+
+/* Bottom swatch */
+.color_swatch_bottom {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: -1px;
+}
+
+/* Swatch image container */
+.color_swatch_image_container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+/* Swatch image */
+.color_swatch_image_container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+/* Border overlay for selected/hover states */
+.color_swatch_border {
+  display: none;
+  position: absolute;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  top: -1px;
+  left: -1px;
+  border: 1px solid #000;
+  z-index: 10;
+}
+
+/* Show border on selected or hover */
+.color_swatch_selected .color_swatch_border,
+.color_swatch:hover .color_swatch_border {
+  display: block;
+}
+
+/* Size grid styling */
+.size_grid {
+  display: grid;
+  grid-template-columns: repeat(
+    5,
+    1fr
+  ); /* Adjusted to use 1fr for equal width */
+  width: 100%; /* Match the width of single_page_details */
+  gap: 0;
+  margin-bottom: 1rem;
+  justify-content: start;
+}
+
+/* Size button styling */
+.size_button {
+  width: 100%; /* Full width of grid cell */
+  height: 44px;
+  padding: 10px;
+  border-radius: 0 !important; /* Ensure no border radius */
+  border: 1px solid #000 !important;
+  text-transform: uppercase;
+  color: #000 !important;
+  font-weight: 500;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+/* Remove right border for all buttons except the last in each row */
+.size_grid .size_button:not(:nth-child(5n)) {
+  border-right: none !important;
+}
+
+/* Selected size button */
+.size_button_selected {
+  background-color: #000 !important;
+  color: white !important;
+}
+
+/* Size guide text styling */
+.size_guide {
+  font-size: 0.875rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Add to cart button styling */
+.add_to_cart {
+  background-color: #000 !important;
+  color: #fff !important;
+  padding: 16px;
+  border-radius: 0;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 0.5rem 0 1.5rem 0;
+  width: 100%;
+}
+
+/* Section styling for collapsible content */
+.section {
+  border-bottom: 0.5px solid #dadada;
+  padding: 5px 0;
+  width: 100%; /* Ensure section matches single_page_details width */
+}
+
+/* Section header styling */
+.section_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Match the width of single_page_details */
+  cursor: pointer;
+  padding: 0.5rem 0; /* Consistent padding */
+}
+
+/* Section title styling */
+.section_title {
+  font-size: 1rem !important; /* Set all header titles to 1rem */
+  font-weight: 650 !important;
+}
+
+/* Open section title styling */
+.section_title_open {
+  color: red; /* Red color when section is open */
+}
+
+/* Section content styling */
+.section_content {
+  width: 100%;
+  text-align: left;
+  font-size: 0.8125rem !important;
+}
+
+/* Details list styling */
+.details_list,
+.materials_list,
+.care_instructions {
+  text-align: left;
+  margin-left: 0;
+  /* padding-left: 20px; */
+}
+
+/* List item spacing */
+.details_list li,
+.materials_list li {
+  margin-bottom: 0.5rem;
+}
+
+/* Care instructions in two columns */
+.section_content .care_instructions {
+  list-style-type: disc !important;
+  padding-left: 20px !important;
+  margin: 0 !important;
+}
+
+/* Media query for larger screens */
+@media (min-width: 1200px) {
+  .single_page_container {
+    padding: calc(20px + 1vw);
+  }
+}
+
+/* Media query for tablets and smaller devices */
+@media (max-width: 768px) {
+  .product_wrapper {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .img_box {
+    width: 100%;
+  }
+
+  .image_grid {
+    grid-template-columns: 1fr;
+  }
+
+  .single_page_details {
+    position: static;
+    top: auto;
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .price {
+    font-size: 1.2rem;
+  }
+
+  .color_swatch_grid {
+    grid-template-columns: repeat(5, 1fr); /* Adjust for smaller screens */
+  }
+
+  .color_swatch {
+    width: 100%; /* Full width of grid cell */
+  }
+
+  .size_grid {
+    grid-template-columns: repeat(5, 1fr); /* Adjust for smaller screens */
+  }
+
+  .size_button {
+    width: 100%; /* Full width of grid cell */
+    height: 36px;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  .size_grid .size_button:not(:nth-child(5n)) {
+    border-right: none !important;
+  }
+
+  .section_header {
+    padding: 0.5rem 0; /* Consistent padding on smaller screens */
+  }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 480px) {
+  .single_page_container {
+    padding: 10px;
+  }
+
+  .single_page_details {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .price {
+    font-size: 1.1rem;
+  }
+
+  .color_swatch_grid {
+    grid-template-columns: repeat(4, 1fr); /* Adjust for mobile */
+  }
+
+  .color_swatch {
+    width: 100%; /* Full width of grid cell */
+  }
+
+  .size_grid {
+    grid-template-columns: repeat(4, 1fr); /* Adjust for mobile */
+  }
+
+  .size_button {
+    width: 100%; /* Full width of grid cell */
+    height: 30px;
+    padding: 6px;
+    font-size: 0.7rem;
+  }
+
+  .size_grid .size_button:not(:nth-child(4n)) {
+    border-right: none !important;
+  }
+
+  .section_header {
+    padding: 0.5rem 0; /* Consistent padding on mobile */
+  }
+}
