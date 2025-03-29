@@ -1,0 +1,148 @@
+.single_page_container {
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 0 20px; /* Add padding for smaller screens */
+}
+
+.product_wrapper {
+  display: flex;
+  gap: 40px;
+}
+
+.img_box {
+  flex: 1.2;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+.img_box img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.single_page_details {
+  flex: 1;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.size_button {
+  background-color: white;
+  border: 1px solid #000;
+  color: #000;
+  border-radius: 0;
+}
+
+.size_button:hover {
+  background-color: #000;
+  color: white;
+}
+
+.size_button_selected {
+  background-color: #000;
+  color: white;
+  border: 1px solid #000;
+}
+
+.add_to_cart {
+  background-color: black;
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 0;
+}
+
+.add_to_cart:hover {
+  background-color: #333;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .product_wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .img_box {
+    height: auto; /* Adjust for smaller screens */
+  }
+
+  .single_page_details {
+    width: 100%; /* Take full width */
+  }
+
+  .title {
+    font-size: 1.3rem; /* Adjust title size */
+  }
+
+  .price {
+    font-size: 1.3rem;
+  }
+
+  .add_to_cart {
+    font-size: 1rem; /* Reduce button font size */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .single_page_container {
+    margin: 10px auto;
+    padding: 0 10px; /* Reduce padding */
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .price {
+    font-size: 1.2rem;
+  }
+
+  .product_wrapper {
+    gap: 10px;
+  }
+
+  .img_box img {
+    border-radius: 5px;
+  }
+
+  .add_to_cart {
+    font-size: 0.9rem;
+    padding: 8px; /* Smaller padding for button */
+  }
+
+  .size_button {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .title {
+    font-size: 1rem;
+  }
+
+  .price {
+    font-size: 1rem;
+  }
+
+  .size_button {
+    font-size: 0.7rem;
+    padding: 5px 8px;
+  }
+
+  .add_to_cart {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+}

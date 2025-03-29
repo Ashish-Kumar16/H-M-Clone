@@ -1,0 +1,145 @@
+/* Main Cart Container */
+.cart_container,
+.cart_page_container {
+  width: 70%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+/* Text Box at Top */
+.cart_text_box {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 25px auto 15px;
+}
+
+/* Flex Container for Cart and Checkout */
+.cart_box {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+/* Cart Item Details */
+.details_box {
+  flex: 2;
+  background-color: #fff;
+}
+
+.checkout_box {
+  flex: 1;
+  background-color: #fff;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  justify-content: flex-start;
+  padding: 20px;
+  line-height: 2.4rem;
+}
+
+.checkout_box > div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.discount_box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.total_value {
+  border-top: 2px solid #ccc;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+.checkout_btn {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--color-bg, #007bff); /* Fallback for button background */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Cart Item Style */
+.cart_items_container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.cart_item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.cart_item img {
+  max-width: 100px;
+  height: auto;
+}
+
+/* Tablet Responsiveness */
+@media all and (min-width: 640px) and (max-width: 1024px) {
+  .cart_container,
+  .cart_page_container {
+    width: 90%;
+  }
+
+  .cart_text_box {
+    width: 90%;
+  }
+
+  .checkout_box {
+    padding: 15px;
+    line-height: 2rem;
+  }
+}
+
+/* Mobile Responsiveness */
+@media all and (max-width: 640px) {
+  .cart_container,
+  .cart_page_container {
+    width: 90%;
+  }
+
+  .cart_text_box {
+    width: 90%;
+  }
+
+  .cart_box {
+    flex-direction: column-reverse;
+  }
+
+  .cart_item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart_item img {
+    width: 100%;
+  }
+
+  .checkout_btn {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: calc(100% - 20px);
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    background-color: var(--color-bg, #007bff);
+  }
+}
