@@ -1,5 +1,5 @@
 const WishListModel = require("../Models/WishListModel");
-const ProductModel = require("../Models/ProductModel");
+const ProductModel = require("../Models/productModel");
 
 const addToWishlist = async (req, res) => {
   try {
