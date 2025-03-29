@@ -1,83 +1,30 @@
 {
-  "name": "hm-clone",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "/",
-  "dependencies": {
-    "@chakra-ui/icons": "^2.0.17",
-    "@chakra-ui/react": "^2.10.4",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@reduxjs/toolkit": "^2.5.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "aos": "^2.3.4",
-    "axios": "^1.3.4",
-    "browserify-zlib": "^0.2.0",
-    "buffer": "^6.0.3",
-    "cross-env": "^7.0.3",
-    "crypto-browserify": "^3.12.1",
-    "dotenv": "^16.0.3",
-    "framer-motion": "^10.18.0",
-    "path-browserify": "^1.0.1",
-    "prop-types": "^15.8.1",
-    "querystring-es3": "^0.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^4.12.0",
-    "react-redux": "^8.1.3",
-    "react-router-dom": "^6.8.2",
-    "react-scripts": "5.0.1",
-    "react-slick": "^0.29.0",
-    "react-toastify": "^11.0.3",
-    "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2",
-    "slick-carousel": "^1.8.1",
-    "stream-browserify": "^3.0.0",
-    "stream-http": "^3.2.0",
-    "url": "^0.11.4",
-    "util": "^0.12.5",
-    "web-vitals": "^2.1.4"
-  },
+  "name": "hm-app-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "cross-env PORT=5173 react-scripts start",
-    "build": "react-scripts build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "start": "node server.js",
+    "build": "echo 'No build step needed' "
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.9.5",
+    "razorpay": "^2.9.6",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@eslint/js": "^9.17.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.1.0",
-    "gh-pages": "^6.2.0",
-    "globals": "^15.13.0",
-    "webpack": "^5.97.1",
-    "webpack-cli": "^6.0.1"
-  },
-  "proxy": "http://localhost:3000"
+    "nodemon": "^3.1.9"
+  }
 }

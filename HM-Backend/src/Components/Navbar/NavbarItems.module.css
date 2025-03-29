@@ -1,6 +1,0 @@
-.nav_drop_down {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  justify-content: flex-start; /* Align items to the left */
-}
