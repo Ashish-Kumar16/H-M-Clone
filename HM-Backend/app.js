@@ -4,11 +4,11 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
-const userRouter = require("./routes/userRoute");
-const orderRouter = require("./routes/orderRoute");
-const cartRouter = require("./routes/cartRoute");
-const wishlistRouter = require("./routes/wishRoute");
-const productRouter = require("./routes/productRoute");
+const userRouter = require("./Routes/userRoute");
+const orderRouter = require("./Routes/orderRoute");
+const cartRouter = require("./Routes/cartRoute");
+const wishlistRouter = require("./Routes/wishRoute");
+const productRouter = require("./Routes/productRoute");
 const errorHandler = require("./Middlewares/errorHandler");
 
 const app = express();
