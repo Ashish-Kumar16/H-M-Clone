@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/products"; // Adjust if your backend URL differs
+const API_URL = "https://hm-backend-wdt8.onrender.com/api/products"; // Adjust if your backend URL differs
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",

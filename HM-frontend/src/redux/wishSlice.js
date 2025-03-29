@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/wishlist"; // Adjust to your backend URL
+const API_URL = "https://hm-backend-wdt8.onrender.com/api/wishlist"; // Adjust to your backend URL
 
 export const addToWishlist = createAsyncThunk(
   "wishlist/addToWishlist",

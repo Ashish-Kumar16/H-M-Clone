@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/cart"; // Matches backend
+const API_URL = "https://hm-backend-wdt8.onrender.com/api/cart"; // Matches backend
 
 // Async thunks
 export const addToCart = createAsyncThunk(
