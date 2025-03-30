@@ -106,8 +106,9 @@ export const OrderDetails = () => {
   return (
     <StyledContainer>
       <StyledNav>
-        <StyledLink href="http://localhost:5173/">HM.com</StyledLink> /{" "}
-        <StyledLink href="http://localhost:5173/account/purchases">
+        <StyledLink href="https://hm-clone-chi.vercel.app/">HM.com</StyledLink>{" "}
+        /{" "}
+        <StyledLink href="https://hm-clone-chi.vercel.app/account/purchases">
           My purchases
         </StyledLink>{" "}
         / <span style={{ color: theme.palette.error.main }}>ORDER DETAILS</span>
