@@ -3,7 +3,7 @@ import { Box, Grid, Typography, Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { searchProductsByQuery } from "../../redux/productSlice";
-import { ProductCard } from "./ProductCard/ProductCard";
+import { ProductCard } from "@components/productcomp/productcard/ProductCard";
 
 export const SearchResultComponent = () => {
   const dispatch = useDispatch();
@@ -127,4 +127,3 @@ export const SearchResultComponent = () => {
     </Box>
   );
 };
-
