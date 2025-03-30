@@ -1,5 +1,13 @@
-import React from "react";
-import { Box, Container, Typography, Link, Grid, Stack } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Link,
+  Grid,
+  Stack,
+  Skeleton,
+} from "@mui/material";
 import {
   Instagram as InstagramIcon,
   YouTube as YouTubeIcon,
@@ -17,6 +25,67 @@ const ListHeader = ({ children }) => {
 };
 
 export const FooterC = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay; replace with your actual loading logic if needed
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <Box sx={{ bgcolor: "#E4E4E4", color: "text.primary", py: 5 }}>
+        {/* Footer Links & Content Skeleton */}
+        <Container maxWidth="lg">
+          <Grid container spacing={4}>
+            {Array.from(Array(4)).map((_, idx) => (
+              <Grid item xs={12} sm={6} md={3} key={idx}>
+                <Stack spacing={1}>
+                  <Skeleton variant="text" width="80%" height={30} />
+                  {Array.from(Array(6)).map((__, i) => (
+                    <Skeleton key={i} variant="text" width="90%" />
+                  ))}
+                </Stack>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+        {/* Social Media Icons Skeleton */}
+        <Box sx={{ display: "flex", justifyContent: "center", py: 3 }}>
+          <Stack direction="row" spacing={2}>
+            {Array.from(Array(5)).map((_, idx) => (
+              <Skeleton key={idx} variant="circular" width={24} height={24} />
+            ))}
+          </Stack>
+        </Box>
+        {/* Copyright Skeleton */}
+        <Typography
+          variant="caption"
+          align="center"
+          display="block"
+          sx={{ mt: 2 }}
+        >
+          <Skeleton variant="text" width="60%" />
+        </Typography>
+        {/* Logo Skeleton */}
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+          <Skeleton variant="rectangular" width={39} height={26} />
+        </Box>
+        <Typography
+          variant="caption"
+          align="center"
+          display="block"
+          sx={{ mt: 1, pb: 2 }}
+        >
+          <Skeleton variant="text" width="40%" />
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ bgcolor: "#E4E4E4", color: "text.primary" }}>
       {/* Footer Links & Content Section */}
@@ -150,7 +219,7 @@ export const FooterC = () => {
         sx={{ mt: 2 }}
       >
         The content of this site is copyright-protected and is the property of H
-        & M Hennes & Mauritz AB.
+        &amp; M Hennes &amp; Mauritz AB.
       </Typography>
 
       {/* Company Logo Section */}

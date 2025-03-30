@@ -1,12 +1,114 @@
 import React, { useEffect, useState } from "react";
-import { Button, Typography, Box, Stack } from "@mui/material";
+import { Button, Typography, Box, Stack, Skeleton } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Categories } from "./Categories";
-import axios from "axios";
 
 export const HomeComp = () => {
   const [arrivalData, setArrivalData] = useState([]);
   const [activeArrival, setActiveArrival] = useState("ladies");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate data loading delay. Replace with your API call if needed.
+    setTimeout(() => {
+      setLoading(false);
+      // You can fetch data with axios here if required:
+      // axios.get('/your/api/endpoint').then(response => setArrivalData(response.data));
+    }, 2000);
+  }, []);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          mt: 4,
+        }}
+      >
+        {/* Top Info Section Skeleton */}
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            width: { xs: "90%", sm: "90%", md: 850 },
+            height: 24,
+            mx: "auto",
+          }}
+        />
+
+        {/* Section 1 Skeleton */}
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            width: { xs: "90%", sm: "90%", md: 894 },
+            height: { xs: 350, md: 640 },
+            mx: "auto",
+          }}
+        />
+
+        {/* Section 2 Skeleton */}
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            width: { xs: "90%", sm: "90%", md: 894 },
+            height: { xs: 350, md: 640 },
+            mx: "auto",
+          }}
+        />
+
+        {/* Section 3 Skeleton */}
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            width: { xs: "90%", sm: "90%", md: 894 },
+            height: { xs: 350, md: 640 },
+            mx: "auto",
+          }}
+        />
+
+        {/* Shop Box Skeleton */}
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            width: { xs: "90%", sm: "90%", md: 894 },
+            height: 132.28,
+            mx: "auto",
+          }}
+        />
+
+        {/* Section 5 Skeleton */}
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            width: { xs: "90%", sm: "90%", md: 894 },
+            height: { xs: 350, md: 640 },
+            mx: "auto",
+          }}
+        />
+
+        {/* Section 6 Skeleton */}
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            width: { xs: "90%", sm: "90%", md: 894 },
+            height: { xs: 350, md: 640 },
+            mx: "auto",
+          }}
+        />
+
+        {/* Section 7 Skeleton */}
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            width: { xs: "90%", sm: "90%", md: 894 },
+            height: { xs: 350, md: 640 },
+            mx: "auto",
+            mb: 2,
+          }}
+        />
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -50,8 +152,6 @@ export const HomeComp = () => {
           mx: "auto",
           position: "relative",
           backgroundColor: "#C9002E",
-          // "url(../../assets/Home-Section/image1.png) center/cover no-repeat",
-          // border: "1px solid",
           borderColor: "grey.300",
         }}
       >
@@ -62,7 +162,6 @@ export const HomeComp = () => {
             mx: "auto",
             position: "relative",
             backgroundColor: "#C9002E",
-            // border: "1px solid",
             borderColor: "grey.300",
             display: "flex",
             flexDirection: "column",

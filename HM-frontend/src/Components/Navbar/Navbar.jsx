@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -19,6 +19,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Skeleton,
 } from "@mui/material";
 import { CiUser, CiSearch, CiHeart, CiBag1 } from "react-icons/ci";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
@@ -140,13 +141,22 @@ export const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [menuTimeout, setMenuTimeout] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart?.items || []);
   const isAuthenticated = !!user;
-  const [activeMenu, setActiveMenu] = useState(null);
-  const [menuTimeout, setMenuTimeout] = useState(null);
+
+  useEffect(() => {
+    // Simulate loading delay for the navbar (replace with actual loading logic if needed)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSignOut = () => {
     dispatch(signOut()).then(() => {
@@ -164,7 +174,6 @@ export const Navbar = () => {
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
   const handleSnackbarClose = () => setSnackbarOpen(false);
-  const toggleDrawer = (open) => () => setDrawerOpen(open);
 
   const handleSearch = (e) => {
     if (e.key === "Enter" && searchQuery.trim()) {
@@ -178,6 +187,7 @@ export const Navbar = () => {
         });
     }
   };
+
   const handleMenuHover = (menuKey) => {
     if (menuTimeout) {
       clearTimeout(menuTimeout);
@@ -199,11 +209,63 @@ export const Navbar = () => {
     { text: "Baby", path: "/kids" },
     { text: "Kids", path: "/kids" },
     { text: "Home", path: "/home" },
-    // { text: "Sale", path: "/sale" },
     { text: "Sustainability", path: "/sustainability" },
     { text: "Customer Service", path: "/customer-service" },
     { text: "Newsletter", path: "/newsletter" },
   ];
+
+  // Render skeleton placeholders while loading
+  if (loading) {
+    if (isMobile) {
+      return (
+        <NavbarContainer>
+          <StyledAppBar position="static">
+            <Toolbar
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "16px",
+                minHeight: "72px !important",
+                backgroundColor: "#f8f7f5",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {/* MobileNavbar placeholder */}
+                <Skeleton variant="circular" width={40} height={40} />
+                <Box ml={2}>
+                  <Skeleton variant="rectangular" width={60} height={40} />
+                </Box>
+              </Box>
+              <IconContainer>
+                <Skeleton variant="circular" width={30} height={30} />
+                <Skeleton variant="circular" width={30} height={30} />
+                <Skeleton variant="circular" width={30} height={30} />
+                <Skeleton variant="circular" width={30} height={30} />
+              </IconContainer>
+            </Toolbar>
+          </StyledAppBar>
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height={20}
+            sx={{ mt: 2 }}
+          />
+        </NavbarContainer>
+      );
+    }
+    return (
+      <NavbarContainer>
+        {/* TopBar skeleton */}
+        <Box sx={{ mb: 2 }}>
+          <Skeleton variant="rectangular" width="100%" height={100} />
+        </Box>
+        {/* SecondaryNav skeleton */}
+        <Box sx={{ mb: 2 }}>
+          <Skeleton variant="rectangular" width="100%" height={60} />
+        </Box>
+      </NavbarContainer>
+    );
+  }
 
   if (isMobile) {
     return (
@@ -224,7 +286,6 @@ export const Navbar = () => {
                 <Logo src={logo} alt="H&M logo" />
               </Link>
             </Box>
-
             <IconContainer>
               <StyledIconButton
                 component={Link}
@@ -247,7 +308,6 @@ export const Navbar = () => {
             </IconContainer>
           </Toolbar>
         </StyledAppBar>
-
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
@@ -290,13 +350,11 @@ export const Navbar = () => {
             </NavButton>
             <BiDotsHorizontalRounded fontSize={20} />
           </NavSection>
-
           <LogoContainer className="navbar_logo">
             <Link to="/">
               <img src={logo} alt="hm_logo" />
             </Link>
           </LogoContainer>
-
           <NavSection
             className="navbar_right"
             sx={{ justifyContent: "flex-end" }}
@@ -329,14 +387,12 @@ export const Navbar = () => {
                 <NavButton>Sign In</NavButton>
               </Box>
             )}
-
             <Link to="/favourite" style={{ textDecoration: "none" }}>
               <Box display="flex" alignItems="center">
                 <CiHeart fontSize={24} />
                 <NavButton as="span">Favourites</NavButton>
               </Box>
             </Link>
-
             <Link to="/cart" style={{ textDecoration: "none" }}>
               <Box display="flex" alignItems="center">
                 <CiBag1 fontSize={24} />
@@ -346,7 +402,6 @@ export const Navbar = () => {
           </NavSection>
         </TopBar>
       </Box>
-
       <SecondaryNav className="navbar_box_2">
         <Box flex={1} />
         <Box flex={4} display="flex" justifyContent="center" gap={0}>
@@ -386,12 +441,6 @@ export const Navbar = () => {
             onClick="home"
             isSignInOpen={isOpen}
           />
-          {/* <NavbarSec
-            comp="Sale"
-            list={sale}
-            onClick="sale"
-            isSignInOpen={isOpen}
-          /> */}
         </Box>
         <Box flex={1}>
           <SearchField
@@ -410,7 +459,6 @@ export const Navbar = () => {
           />
         </Box>
       </SecondaryNav>
-
       <SignIn isOpen={isOpen} onClose={() => setIsOpen(false)} />
       <Snackbar
         open={snackbarOpen}

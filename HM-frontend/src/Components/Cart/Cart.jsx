@@ -8,6 +8,7 @@ import {
   MenuItem,
   IconButton,
   Link as MuiLink,
+  Skeleton,
 } from "@mui/material";
 import { FavoriteBorder, Delete, LocalShipping } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,17 +44,17 @@ export const CartComp = () => {
   const handleRemoveItem = (cartId) => {
     dispatch(removeFromCart(cartId));
   };
+
   const handleTocheckout = () => {
     if (!user) {
-      // Check if user is not authenticated
-      // Assuming you have enqueueSnackbar available (you might need to import it)
+      // Assuming enqueueSnackbar is available in your project
       enqueueSnackbar("Please log in to proceed to checkout.", {
         variant: "warning",
       });
-      navigate("/signin"); // Navigate to sign-in page if not authenticated
+      navigate("/signin");
       return;
     }
-    navigate("/checkout"); // Navigate to checkout page if authenticated
+    navigate("/checkout");
   };
 
   const calculateTotal = () => {
@@ -66,8 +67,45 @@ export const CartComp = () => {
       .toFixed(2);
   };
 
+  // Use a Skeleton view for the loading state with a minimum height that pushes the footer down.
   if (cartStatus === "loading") {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Box
+        sx={{
+          color: "grey.800",
+          minHeight: "calc(100vh - 200px)",
+          py: 4,
+        }}
+      >
+        <Container maxWidth="lg">
+          {/* Top Info Bar Skeleton */}
+          <Skeleton
+            variant="text"
+            width="80%"
+            height={30}
+            sx={{ mx: "auto", mb: 2 }}
+          />
+          {/* Title Skeleton */}
+          <Skeleton
+            variant="text"
+            width="60%"
+            height={40}
+            sx={{ mx: "auto", mb: 4 }}
+          />
+          {/* Simulated cart items */}
+          {Array.from(Array(3)).map((_, index) => (
+            <Skeleton
+              key={index}
+              variant="rectangular"
+              height={180}
+              sx={{ mb: 2 }}
+            />
+          ))}
+          {/* Summary Section Skeleton */}
+          <Skeleton variant="rectangular" height={200} sx={{ mt: 4 }} />
+        </Container>
+      </Box>
+    );
   }
 
   if (cartStatus === "failed") {
@@ -75,7 +113,7 @@ export const CartComp = () => {
   }
 
   return (
-    <Box sx={{ color: "grey.800", minHeight: "100vh" }}>
+    <Box sx={{ color: "grey.800", minHeight: "calc(100vh - 200px)" }}>
       <Container maxWidth="lg" sx={{ py: 4 }}>
         {/* Top Info Bar */}
         <Box
@@ -123,11 +161,11 @@ export const CartComp = () => {
               borderRadius: 2,
               width: { xs: "100%", lg: "60%" },
               maxWidth: "735px",
-              // fontSize: "1.75",
+              bgcolor: "white",
             }}
           >
             {items.length === 0 ? (
-              <Typography sx={{ fontSize: "1.75" }}>
+              <Typography sx={{ fontSize: "1.75rem" }}>
                 Your Shopping Bag is empty!
               </Typography>
             ) : (
@@ -140,7 +178,7 @@ export const CartComp = () => {
                     position: "relative",
                     mb: 2,
                     bgcolor: "white",
-                    padding: "24px 24px 24px 24px",
+                    p: "24px",
                   }}
                 >
                   <img
@@ -149,7 +187,7 @@ export const CartComp = () => {
                     style={{
                       objectFit: "cover",
                       borderRadius: "8px",
-                      width: { xs: "120px", sm: "162px" },
+                      width: "120px",
                       height: "168px",
                     }}
                   />
@@ -184,24 +222,16 @@ export const CartComp = () => {
                         fontSize: "0.688rem",
                       }}
                     >
-                      <Typography
-                        sx={{ textAlign: "left", fontSize: "0.688rem" }}
-                      >
+                      <Typography sx={{ textAlign: "left" }}>
                         Art no: {item.productCode}
                       </Typography>
-                      <Typography
-                        sx={{ textAlign: "left", fontSize: "0.688rem" }}
-                      >
+                      <Typography sx={{ textAlign: "left" }}>
                         Size: {item.size.sizeFilter}
                       </Typography>
-                      <Typography
-                        sx={{ textAlign: "left", fontSize: "0.688rem" }}
-                      >
+                      <Typography sx={{ textAlign: "left" }}>
                         Colour: {item.color}
                       </Typography>
-                      <Typography
-                        sx={{ textAlign: "left", fontSize: "0.688rem" }}
-                      >
+                      <Typography sx={{ textAlign: "left" }}>
                         Total: Rs.{" "}
                         {(
                           parseFloat(item.price.replace("Rs. ", "")) *
@@ -266,12 +296,11 @@ export const CartComp = () => {
               width: { xs: "100%", lg: "35%" },
               maxWidth: "380px",
               p: 3,
-              height: "auto", // Adjusts to content height
-              maxHeight: "600px", // Maximum height limit
-              overflow: "auto", // Scrollbar if content exceeds 600px
-              display: "flex", // Use flex to control content flow
-              flexDirection: "column", // Stack children vertically
-              justifyContent: "flex-start", // Keep content at the top
+              maxHeight: "600px",
+              overflow: "auto",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
             }}
           >
             <Box
