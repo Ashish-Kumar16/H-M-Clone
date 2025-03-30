@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { searchProductsByQuery } from "../../redux/productSlice";
 import { ProductCard } from "./ProductCard/ProductCard";
 
-const SearchResult = () => {
+export const SearchResult = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { products, status, error } = useSelector((state) => state.products);
@@ -127,5 +127,3 @@ const SearchResult = () => {
     </Box>
   );
 };
-
-export default SearchResult;
