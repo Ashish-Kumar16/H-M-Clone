@@ -1,45 +1,43 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { Box, Button } from "@mui/material";
-import { CartPage } from "./Cart/CartPage"; // Adjust paths as needed
-import { Favorites } from "./Favourite/Favourite";
+import { CartPage } from "./Cart/CartPage";
+import { Favorites } from "./Favourite/Favourite"; // Ensure correct spelling: "Favourite" vs "Favorites"
 import { Home } from "./Home/Home";
 import { ProductPage } from "./ProductPage/ProductPage";
 import { SignUpPage } from "./SignUp/SignUpPage";
 import { SingleProductPage } from "./SingleProductPage/SingleProductPage";
-// import { AccountDetail } from "../Components/AuthModal/AccountDetail"; // Adjust path if needed
-import SettingsRoutes from "../Components/Accounts/SettingsRoutes"; // Adjust path if needed
+import SettingsRoutes from "../Components/Accounts/SettingsRoutes";
 import { Checkout } from "../Components/Checkout/Checkout";
 import { OrderDetails } from "../Pages/orders/orderDetail";
-// import SearchResult from "../components/ProductComp/searchResult";
+import SearchResult from "../components/ProductComp/searchResult"; // Corrected import path
+
 export const AllRoutes = () => {
   const navigate = useNavigate();
 
   return (
     <Routes>
-      {/* Home Page */}
+      {/* Public Routes */}
       <Route path="/" element={<Home />} />
-      {/* Single Product Page */}
+      <Route path="/signup" element={<SignUpPage />} />
+      {/* Product-Related Routes */}
+      <Route path="/category/:category" element={<ProductPage />} />
+      <Route path="/product/:id" element={<SingleProductPage />} />
+      <Route path="/product/:id/:variantCode" element={<SingleProductPage />} />
       <Route
         path="/productdetail/:articleCode"
         element={<SingleProductPage />}
       />
-      <Route path="/product/:id" element={<SingleProductPage />} />
-      <Route path="/product/:id/:variantCode" element={<SingleProductPage />} />
-      {/* <Route path="/search" element={<SearchResult />} /> */}
-      {/* Sign Up Page */}
-      <Route path="/signup" element={<SignUpPage />} />
-      {/* Account Detail Page with nested settings routes */}
+      <Route path="/search" element={<SearchResult />} />{" "}
+      {/* Corrected Search Route */}
+      {/* User-Related Routes */}
       <Route path="/account/*" element={<SettingsRoutes />} />
-      {/* Product Page by Category */}
-      <Route path="/category/:category" element={<ProductPage />} />
-      {/* Cart Page */}
       <Route path="/cart" element={<CartPage />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/order/:orderId" element={<OrderDetails />} />
-      {/* Favourite Products Page */}
-      <Route path="/favourite" element={<Favorites />} />
-      {/* 404 Error Page */}
+      <Route path="/favourite" element={<Favorites />} />{" "}
+      {/* Consistent naming */}
+      {/* 404 Not Found Route */}
       <Route
         path="*"
         element={

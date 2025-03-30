@@ -8,7 +8,6 @@ import { Navbar } from "./Components/Navbar/Navbar";
 import { AllRoutes } from "./Pages/AllRoutes";
 import { Footer } from "./Pages/Footer/Footer";
 import { useSelector } from "react-redux";
-// import { checkAuth } from "./redux/authSlice";
 
 function App() {
   const dispatch = useDispatch();
