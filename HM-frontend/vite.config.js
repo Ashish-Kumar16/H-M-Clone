@@ -1,19 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  resolve: {
-    alias: {
-      "@components": path.resolve(__dirname, "src/components"),
-      // Add more aliases as needed, e.g., '@redux': path.resolve(__dirname, 'src/redux')
-    },
-  },
-  // Optional: Optimize for production
+  base: "/",
   build: {
     outDir: "dist",
-    sourcemap: true,
+  },
+  server: {
+    historyApiFallback: true,
   },
 });
