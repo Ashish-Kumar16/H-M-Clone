@@ -122,7 +122,14 @@ const ProductCard = ({
   const isFavorite = wishlistItems.some(
     (item) => item.productCode === productCode,
   );
-
+  const handleCardClick = () => {
+    navigate(`/product/${productCode}`);
+  };
+  const handleSwatchClick = (e, productCode) => {
+    e.preventDefault();
+    e.stopPropagation();
+    //   navigate(`/product/${productId}/${productCode}`);
+  };
   const handleAddWish = (e) => {
     e.preventDefault();
     if (!isAuthenticated) {
@@ -169,6 +176,7 @@ const ProductCard = ({
     <SingleCard
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleCardClick}
     >
       <CardImageContainer>
         <StyledImage
@@ -242,10 +250,7 @@ const ProductCard = ({
             <Swatch
               key={index}
               sx={{ backgroundColor: swatch.colorCode }}
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(`/product/${productId}/${swatch.productCode}`);
-              }}
+              onClick={(e) => handleSwatchClick(e, swatch.productCode)}
             />
           ))}
           {swatches.length > 3 && (

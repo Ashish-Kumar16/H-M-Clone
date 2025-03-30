@@ -3,7 +3,6 @@ import { Box, IconButton, Drawer, Stack, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
-import styles from "./Navbar.module.css";
 import ladiesImg from "../../assets/images/Ladies1.jpeg";
 import menImg from "../../assets/images/Men1.jpeg";
 import babyImg from "../../assets/images/Baby1.jpeg";
@@ -13,16 +12,15 @@ import saleImg from "../../assets/images/Sale1 (1).png";
 
 export const MobileNavbar = () => {
   const [open, setOpen] = React.useState(false);
-  const btnRef = React.useRef();
   const navigate = useNavigate();
 
   const menuItems = [
     { label: "Ladies", route: "ladies", imgSrc: ladiesImg },
     { label: "Men", route: "mens", imgSrc: menImg },
-    { label: "Baby", route: "baby", imgSrc: babyImg },
+    { label: "Baby", route: "kids", imgSrc: babyImg },
     { label: "Kids", route: "kids", imgSrc: kidsImg },
     { label: "Home", route: "home", imgSrc: homeImg },
-    { label: "Sale", route: "sale", imgSrc: saleImg },
+ 
   ];
 
   const handleClick = (route) => {
@@ -31,11 +29,12 @@ export const MobileNavbar = () => {
   };
 
   return (
-    <div className={styles.mobile_nav}>
+    // The outer Box replaces the .mobile_nav CSS class.
+    <Box sx={{ display: { xs: "block", lg: "none" } }}>
       <IconButton
-        ref={btnRef}
         onClick={() => setOpen(true)}
-        sx={{ display: { xs: "block", md: "none" } }} // Show on mobile, hide on md and up
+        // This IconButton remains visible only on mobile.
+        sx={{ display: { xs: "block", lg: "none" } }}
       >
         <MenuIcon fontSize="large" />
       </IconButton>
@@ -64,13 +63,15 @@ export const MobileNavbar = () => {
                   "&:hover": { color: "var(--text-color-hover)" },
                 }}
               >
-                <img
+                <Box
+                  component="img"
                   src={item.imgSrc}
                   alt={item.label}
-                  style={{
+                  sx={{
                     width: "50px",
                     height: "50px",
                     borderRadius: "50%",
+                    objectFit: "cover",
                   }}
                 />
                 <Typography
@@ -83,6 +84,6 @@ export const MobileNavbar = () => {
           </Stack>
         </Box>
       </Drawer>
-    </div>
+    </Box>
   );
 };

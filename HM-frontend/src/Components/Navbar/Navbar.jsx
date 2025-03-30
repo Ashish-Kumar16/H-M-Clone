@@ -35,6 +35,7 @@ import logo from "../../assets/logohm.png";
 import { SignIn } from "../Accounts/Auth/SigninCard";
 import { NavbarSec } from "./NavbarItems";
 import { ladies, men, kids, home, baby } from "./subCategory";
+import { MobileNavbar } from "./MobileNavbar"; // Import MobileNavbar
 
 // Styled Components
 const StyledAppBar = styled(AppBar)({
@@ -134,12 +135,11 @@ const SearchField = styled(TextField)({
 // Navbar Component
 export const Navbar = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search input
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -219,15 +219,10 @@ export const Navbar = () => {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <IconButton
-                edge="start"
-                aria-label="menu"
-                sx={{ color: "#000000" }}
-                onClick={toggleDrawer(true)}
-              >
-                <MenuIcon sx={{ fontSize: "24px" }} />
-              </IconButton>
-              <Logo src={logo} alt="H&M logo" />
+              <MobileNavbar /> {/* Replace menu button with MobileNavbar */}
+              <Link to="/">
+                <Logo src={logo} alt="H&M logo" />
+              </Link>
             </Box>
 
             <IconContainer>
@@ -252,28 +247,6 @@ export const Navbar = () => {
             </IconContainer>
           </Toolbar>
         </StyledAppBar>
-
-        <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-          <Box
-            sx={{ width: 250 }}
-            role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
-          >
-            <List>
-              {menuItems.map((item) => (
-                <ListItem
-                  key={item.text}
-                  component={Link}
-                  to={item.path}
-                  sx={{ color: "#000000" }}
-                >
-                  <ListItemText primary={item.text} />
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        </Drawer>
 
         <Menu
           anchorEl={anchorEl}

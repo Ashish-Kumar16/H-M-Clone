@@ -1,95 +1,367 @@
 import React, { useEffect, useState } from "react";
 import { Button, Typography, Box, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import styles from "./Home.module.css";
 import { Categories } from "./Categories";
 import axios from "axios";
-
-// const getData = async (category) => {
-//   try {
-//     const response = await axios.get(
-//       `https://hm-backend-wdt8.onrender.com/products/${category}`,
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching category data:", error);
-//     return [];
-//   }
-// };
 
 export const HomeComp = () => {
   const [arrivalData, setArrivalData] = useState([]);
   const [activeArrival, setActiveArrival] = useState("ladies");
 
-  // const handleArrivals = (category) => {
-  //   setActiveArrival(category);
-  //   getData(category).then((data) => setArrivalData(data));
-  // };
-
-  // useEffect(() => {
-  //   handleArrivals("ladies");
-  // }, []);
-
   return (
-    <div className={styles.home}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        mt: 4,
+      }}
+    >
+      <Box
+        sx={{
+          width: { xs: "90%", sm: "90%", md: 850 },
+          display: "flex",
+          justifyContent: { xs: "center", sm: "space-between" },
+          mx: "auto",
+          position: "relative",
+          fontSize: "13px",
+        }}
+      >
+        <Typography textAlign="center">Free shipping above ₹1999</Typography>
+        <Typography
+          sx={{ display: { xs: "none", sm: "block" } }}
+          textAlign="center"
+        >
+          Free & flexible 15 days return
+        </Typography>
+        <Typography
+          sx={{ display: { xs: "none", sm: "block" } }}
+          textAlign="center"
+        >
+          Estimated delivery time: 2-7 days
+        </Typography>
+      </Box>
+
       {/* Section 1 */}
-      <div className={styles.home_section_1}>
-        <Box className={styles.price_box}>
-          <Typography>Rs. 2,999.00</Typography>
-          <Typography fontWeight="bold" sx={{ cursor: "pointer" }}>
-            Appliquéd Jacket &gt;
+      <Box
+        sx={{
+          width: { xs: "90%", sm: "90%", md: 894 },
+          height: { xs: 350, md: 640 },
+          mx: "auto",
+          position: "relative",
+          backgroundColor: "#C9002E",
+          // "url(../../assets/Home-Section/image1.png) center/cover no-repeat",
+          // border: "1px solid",
+          borderColor: "grey.300",
+        }}
+      >
+        <Box
+          sx={{
+            width: { xs: "95%", sm: "90%", md: 894 },
+            height: { xs: 320, sm: 400, md: 640 },
+            mx: "auto",
+            position: "relative",
+            backgroundColor: "#C9002E",
+            // border: "1px solid",
+            borderColor: "grey.300",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            mt: { xs: 3, sm: 0, md: 0 },
+            p: 2,
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "16px", sm: "20px", md: "28px" },
+              color: "white",
+            }}
+          >
+            Online Exclusive
           </Typography>
-        </Box>
-        <Box className={styles.overlay_text}>
-          <Typography className={styles.title}>Winter neutrals</Typography>
-          <Stack direction="row" justifyContent="center" sx={{ mt: 1 }}>
+          <Typography
+            fontWeight="bold"
+            sx={{
+              fontSize: { xs: "32px", sm: "48px", md: "72px" },
+              color: "white",
+            }}
+          >
+            Flat 20% Off
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: "16px", sm: "20px", md: "28px" },
+              color: "white",
+            }}
+          >
+            On min. spends of ₹2999.
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: "12px", sm: "16px", md: "20px" },
+              color: "white",
+            }}
+          >
+            Applies automatically at checkout.
+          </Typography>
+
+          <Stack direction="row" spacing={1} sx={{ mt: 10 }}>
             <Button
               component={Link}
-              to="/category/Women"
+              to="/category/mens"
               variant="contained"
-              className={styles.button}
-              sx={{ "&:hover": { bgcolor: "grey.700" } }}
+              sx={{
+                bgcolor: "#E6E6E6",
+                color: "black",
+                borderRadius: 0,
+                px: { xs: 1.5, sm: 2, md: 2.5 },
+                py: { xs: 0.8, sm: 1, md: 1.2 },
+                fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                "&:hover": { bgcolor: "grey.400" },
+              }}
             >
-              Shop now
+              Men
+            </Button>
+            <Button
+              component={Link}
+              to="/category/baby"
+              variant="contained"
+              sx={{
+                bgcolor: "#E6E6E6",
+                color: "black",
+                borderRadius: 0,
+                px: { xs: 1.5, sm: 2, md: 2.5 },
+                py: { xs: 0.8, sm: 1, md: 1.2 },
+                fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                "&:hover": { bgcolor: "grey.400" },
+              }}
+            >
+              Baby
+            </Button>
+            <Button
+              component={Link}
+              to="/category/kids"
+              variant="contained"
+              sx={{
+                bgcolor: "#E6E6E6",
+                color: "black",
+                borderRadius: 0,
+                px: { xs: 1.5, sm: 2, md: 2.5 },
+                py: { xs: 0.8, sm: 1, md: 1.2 },
+                fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                "&:hover": { bgcolor: "grey.400" },
+              }}
+            >
+              Kids
             </Button>
           </Stack>
+
+          <Typography
+            fontWeight="bold"
+            sx={{
+              fontSize: { xs: "10px", sm: "12px", md: "14px" },
+              color: "white",
+              mt: 2,
+            }}
+          >
+            Offer applicable on men's, kids and baby wear. Limited time offer.
+            *T&C Apply
+          </Typography>
         </Box>
-      </div>
+      </Box>
 
       {/* Section 2 */}
-      <div className={styles.home_section_2}>
-        <Box className={styles.price_box}>
-          <Typography>Rs. 2,299.00</Typography>
-          <Typography fontWeight="bold" sx={{ cursor: "pointer" }}>
-            Loose Fit Printed hoo...
+      <Box
+        sx={{
+          width: { xs: "90%", sm: "90%", md: 894 },
+          height: { xs: 350, md: 640 },
+          mx: "auto",
+          position: "relative",
+          background:
+            "url(https://image.hm.com/content/dam/global_campaigns/season_01/women/ws21eqc/WS21EQC-3x2.jpg) center/cover no-repeat",
+          border: "1px solid",
+          borderColor: "grey.300",
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "35%",
+            left: "80%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "black",
+            color: "white",
+            p: 1.25,
+            borderRadius: 1,
+            fontSize: 14,
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
+            Rs. 1,899.00
+          </Typography>
+          <Typography
+            fontWeight="bold"
+            sx={{ cursor: "pointer", fontSize: { xs: "16px", md: "20px" } }}
+          >
+            Viscose strappy dress
           </Typography>
         </Box>
-        <Box className={styles.overlay_text}>
-          <Typography className={styles.title}>Sleek sport</Typography>
-          <Typography className={styles.subtitle}>
+
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "5%",
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: 24, md: 42 },
+              fontWeight: "bold",
+              color: "black",
+            }}
+          >
+            Seasonal edit
+          </Typography>
+          <Typography
+            sx={{ fontSize: { xs: 14, md: 16 }, color: "white", mt: 0 }}
+          >
             Everyday apparel with tech details and dynamic graphics.
           </Typography>
-          <Stack direction="row" justifyContent="flex-start" sx={{ mt: 1 }}>
+          <Stack direction="row" justifyContent="center" sx={{ mt: 0 }}>
             <Button
               component={Link}
               to="/category/ladies"
               variant="contained"
-              className={styles.button}
-              sx={{ "&:hover": { bgcolor: "grey.700" } }}
+              sx={{
+                bgcolor: "black",
+                color: "white",
+                borderRadius: 0,
+                px: { xs: 2, md: 2.5 },
+                py: 1,
+                fontSize: 14,
+                "&:hover": { bgcolor: "grey.800" },
+              }}
             >
               Shop now
             </Button>
           </Stack>
         </Box>
-      </div>
+      </Box>
+
+      {/* Section 3 */}
+      <Box
+        sx={{
+          width: { xs: "90%", sm: "90%", md: 894 },
+          height: { xs: 350, md: 640 },
+          mx: "auto",
+          position: "relative",
+          background:
+            "url(https://image.hm.com/content/dam/global_campaigns/season_01/baby/ks21e/KS21E-3x2-baby-trend-1.jpg) center/cover no-repeat",
+          border: "1px solid",
+          borderColor: "grey.300",
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "70%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "black",
+            color: "white",
+            p: 1.25,
+            borderRadius: 1,
+            fontSize: 14,
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
+            Rs. 699.00
+          </Typography>
+          <Typography
+            fontWeight="bold"
+            sx={{ width: "100%", fontSize: { xs: "16px", md: "20px" } }}
+          >
+            Print-detail cotton top
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "5%",
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "20px", md: "24px" },
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            Sweet spring
+          </Typography>
+
+          <Stack direction="row" justifyContent="center" sx={{ mt: 0 }}>
+            <Button
+              component={Link}
+              to="/category/kids"
+              variant="contained"
+              sx={{
+                bgcolor: "#FFFFFF",
+                color: "black",
+                borderRadius: 0,
+                px: { xs: 2, md: 2.5 },
+                py: 1,
+                mt: 2,
+                fontSize: 14,
+                "&:hover": { bgcolor: "grey.200" },
+              }}
+            >
+              Shop now
+            </Button>
+          </Stack>
+        </Box>
+      </Box>
 
       {/* Shop Box */}
-      <div className={styles.shop_box}>
-        <Typography className={styles.title}>
-          Sweats & hoodies season
+      <Box
+        sx={{
+          width: { xs: "90%", sm: "90%", md: 894 },
+          height: 132.28,
+          mx: "auto",
+          backgroundImage: `url('https://www2.hm.com/content/dam/global_campaigns/season_09/ladies/6049a/6049A-3x1-spring-2024.jpg')`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          gap: 0.125,
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: { xs: "0.7rem", md: "0.8125rem" },
+            fontWeight: "bold",
+            color: "#222",
+          }}
+        >
+          Fresh styles from ₹699
         </Typography>
-        <Typography className={styles.subtitle}>
-          Discover the perfect winter essentials starting at ₹799
+        <Typography
+          sx={{ fontSize: { xs: "0.6rem", md: "0.688rem" }, color: "black" }}
+        >
+          Browse the latest seasonal fashion.
         </Typography>
         <Stack
           direction="row"
@@ -97,148 +369,269 @@ export const HomeComp = () => {
           spacing={1}
           sx={{ mt: 2 }}
         >
-          <Button
-            component={Link}
-            to="/category/ladies"
-            variant="contained"
-            className={styles.button}
-          >
-            Ladies
-          </Button>
-          <Button
-            component={Link}
-            to="/category/men"
-            variant="contained"
-            className={styles.button}
-          >
-            Men
-          </Button>
-          <Button
-            component={Link}
-            to="/category/kids-baby"
-            variant="contained"
-            className={styles.button}
-          >
-            Kids & Baby
-          </Button>
-        </Stack>
-      </div>
-
-      {/* Categories */}
-      <div className={styles.category_box}>
-        <Typography variant="h6" fontWeight={500} align="left">
-          Men Bestsellers
-        </Typography>
-        <Categories />
-      </div>
-
-      {/* Section 3 */}
-      <div className={styles.home_section_3}>
-        <Box className={styles.price_box}>
-          <Typography color="error" fontWeight="bold">
-            Out of stock
-          </Typography>
-          <Typography>Rs. 2,699.00</Typography>
-          <Typography fontWeight="bold" sx={{ cursor: "pointer" }}>
-            Jacquard-weave A-line...
-          </Typography>
-        </Box>
-        <Box className={styles.overlay_text}>
-          <Typography className={styles.title}>Limited edition</Typography>
-          <Typography className={styles.subtitle}>
-            Exclusive party wear, accessories, dresses, tights and more.
-          </Typography>
-          <Stack direction="row" justifyContent="flex-start" sx={{ mt: 1 }}>
+          {["ladies", "mens", "kids"].map((category) => (
             <Button
+              key={category}
               component={Link}
-              to="/category/kids"
+              to={`/category/${category}`}
               variant="contained"
-              className={styles.button}
-              sx={{ "&:hover": { bgcolor: "grey.700" } }}
+              sx={{
+                bgcolor: "transparent",
+                color: "black",
+                borderRadius: 0,
+                fontSize: 14,
+                px: { xs: 1, md: 1.5 },
+                py: 1,
+                border: "1px solid black",
+              }}
             >
-              Shop 2–8y
+              {category.charAt(0).toUpperCase() + category.slice(1)}
             </Button>
-          </Stack>
-        </Box>
-      </div>
-
-      {/* Gift Box */}
-      <div className={styles.gift_box}>
-        <Typography className={styles.title}>Holiday gift guide</Typography>
-        <Typography className={styles.subtitle}>
-          Find the perfect presents this holiday season.
-        </Typography>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          spacing={1}
-          sx={{ mt: 1 }}
-        >
-          <Button
-            component={Link}
-            to="/category/ladies"
-            variant="contained"
-            className={styles.button}
-          >
-            Ladies
-          </Button>
-          <Button
-            component={Link}
-            to="/category/men"
-            variant="contained"
-            className={styles.button}
-          >
-            Men
-          </Button>
-          <Button
-            component={Link}
-            to="/category/baby"
-            variant="contained"
-            className={styles.button}
-          >
-            Baby
-          </Button>
-          <Button
-            component={Link}
-            to="/category/kids"
-            variant="contained"
-            className={styles.button}
-          >
-            Kids
-          </Button>
-          <Button
-            component={Link}
-            to="/category/home"
-            variant="contained"
-            className={styles.button}
-          >
-            Home
-          </Button>
+          ))}
         </Stack>
-      </div>
+      </Box>
 
-      {/* Section 4 */}
-      <div className={styles.home_section_4}>
-        <Box className={styles.overlay_text}>
-          <Typography className={styles.title}>
-            A winter knit curation
+      {/* Section 5 */}
+      <Box
+        sx={{
+          width: { xs: "90%", sm: "90%", md: 894 },
+          height: { xs: 350, md: 640 },
+          mx: "auto",
+          position: "relative",
+          background:
+            "url(https://image.hm.com/content/dam/global_campaigns/season_01/men/ms21lh4/MS21LH4-3x2-street-trend.jpg) center/cover no-repeat",
+          border: "1px solid",
+          borderColor: "grey.300",
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "70%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "black",
+            color: "white",
+            p: 1.25,
+            borderRadius: 1,
+            fontSize: 14,
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
+            Rs. 1499.00
           </Typography>
-          <Typography className={styles.subtitle}>
-            Discover your look with our staple knitwear styles
+          <Typography
+            fontWeight="bold"
+            sx={{ width: "100%", fontSize: { xs: "16px", md: "20px" } }}
+          >
+            Loose Fit Printed T-sh...
           </Typography>
-          <Stack direction="row" justifyContent="flex-start" sx={{ mt: 1 }}>
+        </Box>
+
+        <Box
+          sx={{
+            position: "absolute",
+            top: "75%",
+            left: "5%",
+            width: "100%",
+            textAlign: "start",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "24px", md: "42px" },
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            Loose fits
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: "15px", md: "20px" },
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            Heavy-washed styles inspired by American vintage looks.
+          </Typography>
+
+          <Stack direction="row" justifyContent="flex-start" sx={{ mt: 2 }}>
             <Button
               component={Link}
-              to="/category/winter-knit"
+              to="/category/ladies"
               variant="contained"
-              className={styles.button}
-              sx={{ "&:hover": { bgcolor: "grey.700" } }}
+              sx={{
+                bgcolor: "#FFFFFF",
+                color: "black",
+                borderRadius: 0,
+                px: { xs: 2, md: 2.5 },
+                py: 1,
+                fontSize: 14,
+                "&:hover": { bgcolor: "grey.200" },
+              }}
             >
               Shop now
             </Button>
           </Stack>
         </Box>
-      </div>
-    </div>
+      </Box>
+
+      {/* Section 6 */}
+      <Box
+        sx={{
+          width: { xs: "90%", sm: "90%", md: 894 },
+          height: { xs: 350, md: 640 },
+          mx: "auto",
+          position: "relative",
+          background:
+            "url(https://image.hm.com/content/dam/global_campaigns/season_01/women/ws21f/WS21F-3x2.jpg) center/cover no-repeat",
+          border: "1px solid",
+          borderColor: "grey.300",
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "40%",
+            left: "20%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "black",
+            color: "white",
+            p: 1.25,
+            borderRadius: 1,
+            fontSize: 14,
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
+            Rs. 2,199.00
+          </Typography>
+          <Typography
+            fontWeight="bold"
+            sx={{ width: "100%", fontSize: { xs: "16px", md: "20px" } }}
+          >
+            Pleated crop top
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "10%",
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: 24, md: 42 },
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            Occasion edit
+          </Typography>
+
+          <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
+            <Button
+              component={Link}
+              to="/category/ladies"
+              variant="contained"
+              sx={{
+                bgcolor: "#FFFFFF",
+                color: "black",
+                borderRadius: 0,
+                px: { xs: 2, md: 2.5 },
+                py: 1,
+                fontSize: 14,
+                "&:hover": { bgcolor: "grey.200" },
+              }}
+            >
+              Shop now
+            </Button>
+          </Stack>
+        </Box>
+      </Box>
+
+      {/* Section 7 */}
+      <Box
+        sx={{
+          width: { xs: "90%", sm: "90%", md: 894 },
+          height: { xs: 350, md: 640 },
+          mx: "auto",
+          position: "relative",
+          background:
+            "url(https://image.hm.com/content/dam/global_campaigns/season_01/home/7021e/7021E-3x2-patio-terrace-balcony-decorations.jpg) center/cover no-repeat",
+          border: "1px solid",
+          borderColor: "grey.300",
+          mb: 2,
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "30%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "black",
+            color: "white",
+            p: 1.25,
+            borderRadius: 1,
+            fontSize: 14,
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          <Typography sx={{ fontSize: { xs: "14px", md: "16px" } }}>
+            Rs. 649.00
+          </Typography>
+          <Typography
+            fontWeight="bold"
+            sx={{ width: "100%", fontSize: { xs: "16px", md: "20px" } }}
+          >
+            Outdoor cushion cover
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "10%",
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: 24, md: 42 },
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            Earthy elegance
+          </Typography>
+
+          <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
+            <Button
+              component={Link}
+              to="/category/ladies"
+              variant="contained"
+              sx={{
+                bgcolor: "#FFFFFF",
+                color: "black",
+                borderRadius: 0,
+                px: { xs: 2, md: 2.5 },
+                py: 1,
+                fontSize: 14,
+                "&:hover": { bgcolor: "grey.200" },
+              }}
+            >
+              Shop now
+            </Button>
+          </Stack>
+        </Box>
+      </Box>
+    </Box>
   );
 };
