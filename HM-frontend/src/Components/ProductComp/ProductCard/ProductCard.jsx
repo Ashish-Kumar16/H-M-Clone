@@ -91,7 +91,7 @@ const Swatch = styled(Box)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
 }));
 
-export const ProductCard = ({
+const ProductCard = ({
   images = [],
   title = "Untitled Product",
   swatches = [],
@@ -254,3 +254,4 @@ export const ProductCard = ({
     </SingleCard>
   );
 };
+export default ProductCard;

@@ -23,7 +23,7 @@ import {
 import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, searchProducts } from "../../redux/productSlice";
-import { ProductCard } from "./ProductCard/ProductCard";
+import ProductCard from "./ProductCard/ProductCard";
 import ErrorBoundary from "./ErrorBoundary.jsx";
 import { FilterSidebar } from "./FilterSidebar.jsx";
 import { getWishlist } from "../../redux/wishSlice";
