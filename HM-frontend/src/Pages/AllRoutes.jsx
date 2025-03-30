@@ -10,7 +10,7 @@ import { SingleProductPage } from "./SingleProductPage/SingleProductPage";
 import SettingsRoutes from "../Components/Accounts/SettingsRoutes";
 import { Checkout } from "../Components/Checkout/Checkout";
 import { OrderDetails } from "../Pages/orders/orderDetail";
-import SearchResult from "../Components/ProductComp/SearchResult"; // Corrected import path
+import { SearchResult } from "../Pages/SearchResult/SearchResult";
 
 export const AllRoutes = () => {
   const navigate = useNavigate();

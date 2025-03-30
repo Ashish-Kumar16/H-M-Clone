@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { searchProductsByQuery } from "../../redux/productSlice";
 import { ProductCard } from "./ProductCard/ProductCard";
 
-export const SearchResult = () => {
+export const SearchResultComponent = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { products, status, error } = useSelector((state) => state.products);
